@@ -4,6 +4,7 @@ clear all; close all; clc;
 
 % parameters
 offset_cal1 = -0.23116;
+% offset_cal1 =   -0.229848003028694;
 offset_cal2 = -0.22321;
 
 %% collect data
@@ -24,7 +25,8 @@ IMU_base = (IMU_base_start+IMU_base_end)/2;
 n = length(data);                                   % number of points
 % N = linspace(1,n,n);                                % measurement points
 N = [0.1 0.4 0.6 0.9 0.6 0.4 0.1].';                % measurement points
-th0_imu = abs(data(:,1)-IMU_base);                  % angle by imu
+th0_imu = imu_angle0_to_angle0(abs(data(:,1)-IMU_base));
+% th0_imu = abs(data(:,1)-IMU_base);                  % angle by imu
 th0_cal = spring1_to_angle0(data(:,2)+offset_cal1); % angle by caliphers
 th0_enc = spindle1_to_angle0(data(:,3));            % angle by encoders
 
@@ -43,5 +45,21 @@ ylabel('difference in angle 0 [rad]'); legend('enc','cal');
 figure; 
 plot(N,diff_enc./th0_imu,N,diff_cal./th0_imu,'--'); grid on; xlabel('Measurement N'); 
 ylabel('rel. difference in angle 0 [rad]'); legend('enc','cal');
+
+%% calculate offset change
+cal = data(:,2)+offset_cal1;
+cal_imu = angle0_to_spring1(th0_imu);
+diff_cal_imu = cal_imu-cal;
+figure; plot(N,diff_cal_imu); grid on; xlabel('measurement position');
+ylabel('calipher length difference [m]');
+
+avg_diff = mean(diff_cal_imu);
+
+offset_cal1_new = offset_cal1+avg_diff;
+
+s = sprintf(['\n The new offset of calipher 1 is:\n',...
+    '\t %7.5f,\n'],offset_cal1_new);
+disp(s)
+
 
 
