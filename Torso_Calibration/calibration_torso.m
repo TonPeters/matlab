@@ -28,7 +28,7 @@ l_calipher1 = input(prompt);
 
 %% calculate the spindle and spring length
 % angle of ankle joint
-q0 = imu_angle0_to_angle0(RL_angle-B_angle);
+q0 = imu_angle0_to_angle0(abs(RL_angle-B_angle));
 
 % spindle length
 l_spindle1 = angle0_to_spindle1(q0);
@@ -59,7 +59,7 @@ l_calipher2 = input(prompt);
 
 %% calculate the spindle and spring length
 % angle of hip joint
-q2 = imu_angle2_to_angle2(T_angle-B_angle,q0);
+q2 = imu_angle2_to_angle2(abs(T_angle-B_angle),q0);
 
 % spindle length
 l_spindle2 = angle2_to_spindle2(q2);
@@ -74,12 +74,18 @@ disp(s)
 
 
 %% Results
-s = sprintf(['\n Calibrate the caliphers and restart hardware:\n',...
+s = sprintf(['\n Calibrate the caliphers:\n',...
     '\t - go to the sergio_hardware directory,\n',...
     '\t - in the torso_controller.ops file adjust:\n',...
-    '\t \n',...
-    '\t %5.4f,\n'],offset_calipher2);
+    '\t \t CALIPHER_OFFSET1 = %5.5f,\n',...
+    '\t \t CALIPHER_OFFSET2 = %5.5f.\n',...
+    'Now restart the hardware and calibration is done.\n',...
+    '- Note, you can repeat these steps in another orientation to verify\n',...
+    '  the results.\n',...
+    ' Angle 0 = %4.4f, and Angle 2 = %4.4f degrees\n'],...
+    offset_calipher1,offset_calipher2,q0/2/pi*360,q2/2/pi*360);
 disp(s)
+
 
 
 

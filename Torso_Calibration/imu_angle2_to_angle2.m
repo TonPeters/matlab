@@ -1,6 +1,6 @@
 function out = imu_angle2_to_angle2(imu_angle,angle0)
 
-    run torso_measures_NX.m
+    run torso_measures_NX
     
     % offset from torso back plate to torso back joint orientation
     offset_angle = an(TB_top-TB_bottom,[0;0;0],L-J);

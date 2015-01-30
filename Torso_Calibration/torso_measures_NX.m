@@ -106,4 +106,34 @@ M_LRL  = 2.5;
 M_UL   = 5;
 M_T    = 30+10;
 
+%% Gas spring constants
+% legs
+B_leg  = 404e-3+2*30e-3;
+A_leg  = 175e-3;
+F1_leg = 500;
+X_leg  = 1.35;
+F2_leg = F1_leg*X_leg;
+K_leg  = (F2_leg-F1_leg)/(A_leg-10e-3);
+FR_leg = 60;
+L0_leg = B_leg  + (F1_leg+FR_leg/2)/K_leg;
+Nsprings_leg = 2;
 
+% trunk
+B_trunk  = 404e-3+2*30e-3;  % complete extended length m
+A_trunk  = 175e-3;          % spring motion range m
+F1_trunk = 800;             % force min length
+X_trunk  = 1.35;            % f2/f1
+F2_trunk = F1_trunk*X_trunk;% force max length
+K_trunk  = (F2_trunk-F1_trunk)/(A_trunk-10e-3); % spring constant (slope N/m)
+FR_trunk = 60;              % direction dependant force
+L0_trunk = B_trunk  + (F1_trunk+FR_trunk/2)/K_trunk; % length at zero energy m (not reachable)
+N_springs_trunk = 0;        % amount of springs used
+
+%% limits
+max_spindle1 = 0.4047; % max is 0.41 is angle0 1.11 and angle1 2.5884
+min_spindle1 = 0.2387; %0.2366 is angle0 0.0
+init_spindle1 = di(C,E);
+max_spindle2 = 0.460; % 0.489 is the absolute maximum (equilibrium point)
+min_spindle2 = 0.36; % 0.3315 is the absolut minimum (equilibrium point)
+% angle2 min = 0.2175, max = 3.2276 (mathematical limitation)
+init_spindle2 = di(I,K);

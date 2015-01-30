@@ -1,6 +1,6 @@
 %%%% Calculate constants for calibration component %%%%
 clear all; close all; clc;
-run ../Torso_functions/torso_measures_NX.m
+run torso_measures_NX
 
 % vector containing constants
 CC = zeros(14,1);
@@ -73,16 +73,23 @@ CC(17) = IJ^2+JK^2;
 CC(18) = -2*IJ*JK;
 CC(19) = GJI+KJL;
 
+%% angle limits in calculation spindle length from angles
+CC(20) = pi-CAZ; % angle 0 max 
+CC(21) = -CAZ; % angle 0 min
+CC(22) = pi+GJH+KJL; % angle 2 max
+CC(23) = GJH+KJL; % angle 2 min
+
 %% print results to copy paste
 print_format = 'C%.i = %8.6f;';
 disp(' Constants used in ConversionSpindleAngle.*:');
-for i=1:1:14
+const = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,20,21,22,23];
+for i=const
     string = sprintf(print_format,i,CC(i));
     disp(string)
 end
 
 
-disp(sprintf('\n Constants used in ConversionSpindleAngle.*:'));
+disp(sprintf('\n Constants used in InitCalipherToSpindle.*:'));
 const = [1,2,3,4,5,6,9,15,16,17,18,19];
 for i=const
     string = sprintf(print_format,i,CC(i));
