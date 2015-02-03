@@ -47,6 +47,7 @@ function [q,qd,qdd,time] = reference_generator(xstart,xend,Ts,vel,acc,jerk)
         t_steps(6) = t_steps(5)+tj;
         t_steps(7) = t_steps(6)+ta;
         t_steps(8) = t_steps(7)+tj;
+        
         for i=4:1:7
             a(:,i) = compute_integral_constants(t_steps(i),q_1,q_2,q_3,jerk_steps(i));
             [q_1,q_2,q_3] = ref_evaluate(a(:,i),t_steps(i+1)); 

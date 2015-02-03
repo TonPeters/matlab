@@ -338,9 +338,9 @@ for i=1:1:n_e
     
 end
 
-%% calculate eigenvalues
-
-
+%% save system
+M = M_min; H = H_min; S = S_min; q = q_min; qd = qd_min; qdd = qdd_min;
+save('motion_no_spring_no_arms','M','H','S','q','qd','qdd','tau');
 
 
 
