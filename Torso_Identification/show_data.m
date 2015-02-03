@@ -2,10 +2,11 @@
 % close all; 
 clc;
 
-filename = 'test';
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+filename = 'manual_ref07';
 
-data = importdata([filename,'.dat']);
-vectorsizes = [2];
+data = importdata([filedir,filename,'.dat']);
+vectorsizes = [2,2,2];
 
 GEARRATIO 			= 9.0/169.0;		
 BITS2CURRENT 		= 25.0/2046.0; 		
@@ -35,11 +36,18 @@ time = sample_i;
 
 ref1 = trace{1}.signal{1};
 ref2 = trace{1}.signal{2};
+u1 = trace{2}.signal{1};
+u2 = trace{2}.signal{2};
+enc1 = trace{3}.signal{1};
+enc2 = trace{3}.signal{2};
+
 
 %% plot results
 figure; 
-subplot(2,1,1);
-plot(time,ref1); ylabel('error'); grid on; 
-subplot(2,1,2);
-plot(time,ref2); ylabel('control'); grid on;
+subplot(3,1,1);
+plot(time,ref1,time,ref2); ylabel('ref'); grid on; 
+subplot(3,1,2);
+plot(time,u1,time,u2); ylabel('control'); grid on;
+subplot(3,1,3);
+plot(time,enc1,time,enc2); ylabel('enc'); grid on;
 linkaxes(get(gcf,'children'),'x');

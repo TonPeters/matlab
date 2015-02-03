@@ -130,10 +130,15 @@ L0_trunk = B_trunk  + (F1_trunk+FR_trunk/2)/K_trunk; % length at zero energy m (
 N_springs_trunk = 0;        % amount of springs used
 
 %% limits
-max_spindle1 = 0.4047; % max is 0.41 is angle0 1.11 and angle1 2.5884
-min_spindle1 = 0.2387; %0.2366 is angle0 0.0
+max_spindle1 = 0.394; % max is 0.41 is angle0 1.11 and angle1 2.5884
+min_spindle1 = 0.244; %0.2366 is angle0 0.0
 init_spindle1 = di(C,E);
-max_spindle2 = 0.460; % 0.489 is the absolute maximum (equilibrium point)
-min_spindle2 = 0.36; % 0.3315 is the absolut minimum (equilibrium point)
+max_spindle2 = 0.456; % 0.489 is the absolute maximum (equilibrium point)
+min_spindle2 = 0.360; % 0.3315 is the absolut minimum (equilibrium point)
 % angle2 min = 0.2175, max = 3.2276 (mathematical limitation)
 init_spindle2 = di(I,K);
+
+% th_0_min = spindle1_to_angle0(min_spindle1);
+% th_0_max = spindle1_to_angle0(max_spindle1);
+% th_2_min = spindle2_to_angle2(min_spindle2);
+% th_2_max = spindle2_to_angle2(max_spindle2);
