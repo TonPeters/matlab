@@ -2,7 +2,11 @@
 % close all; 
 clc;
 
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+%% on sergio
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+%% on my pc
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+
 filename = 'manual_ref07';
 
 data = importdata([filedir,filename,'.dat']);
@@ -44,10 +48,19 @@ enc2 = trace{3}.signal{2};
 
 %% plot results
 figure; 
-subplot(3,1,1);
-plot(time,ref1,time,ref2); ylabel('ref'); grid on; 
-subplot(3,1,2);
-plot(time,u1,time,u2); ylabel('control'); grid on;
-subplot(3,1,3);
-plot(time,enc1,time,enc2); ylabel('enc'); grid on;
+subplot(4,1,1);
+plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; 
+subplot(4,1,2);
+plot(time,u1,time,u2); ylabel('control [V]'); grid on;
+subplot(4,1,3);
+plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
+subplot(4,1,4);
+plot(time,ref1-enc1,time,ref2-enc2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
+
+%% save data
+ref = [ref1, ref2];
+enc = [enc1, enc2];
+u = [u1, u2];
+
+save([filename,'.mat'],'ref','enc','u','time')
