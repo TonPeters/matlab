@@ -3,11 +3,11 @@ clear all;
 clc;
 
 %% on sergio
-% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
 %% on my pc
-filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
-filename = 'sine_tr_up_up';
+filename = 'sine_leg_up_up';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -72,8 +72,8 @@ linkaxes(get(gcf,'children'),'x');
 % plot(enc1,u1); grid on;
 % xlabel('enc2 m'); ylabel('input2 V');
 %% save data
-ref = [ref1, ref2];
-enc = [enc1, enc2];
-u = [u1, u2];
-
-save(['data/',filename,'.mat'],'ref','enc','u','time')
+% ref = [ref1, ref2];
+% enc = [enc1, enc2];
+% u = [u1, u2];
+% 
+% save(['data/',filename,'.mat'],'ref','enc','u','time')
