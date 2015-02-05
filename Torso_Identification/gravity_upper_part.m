@@ -7,7 +7,10 @@ pos_l = {'Up','C','Do'};
 p1 = zeros(3,1);
 p2 = p1;
 
-fig = figure; scr rt; fig2 = figure; scr lt;
+load motion_Volt_angle.mat
+
+fig = figure; scr rt; 
+fig2 = figure; scr lt;
 for i=1:1:3
     pos = pos_l{i};
     load(['data/static_leg',pos,'_120s.mat']);
@@ -42,7 +45,33 @@ for i=1:1:3
     figure(fig);
     plot(enc(indices1,2),p1(i).*enc(indices1,2)+p2(i)); hold all; grid on;
     
+    %% gravity by model
+    xsp_min = min(enc(:,2));
+    xsp_max = max(enc(:,2));
+    xsp0_mean = mean(enc(:,1));
+
+    xsp = linspace(xsp_min,xsp_max,10).';
+    th = spindle2_to_angle2(xsp);
+    th0 = spindle1_to_angle0(xsp0_mean);
+    S_inv = inv(S);
+
+    u_model = zeros(size(xsp));
+    for i=1:1:10
+        H_num = double(subs(H,[q;qd],[th0;th(i);0;0]));
+        u_tmp = S_inv*H_num;
+        u_model(i) = u_tmp(2);
+    end
+
+    figure(fig2); 
+    plot(xsp,u_model,'--');
+    
+
+    
 end
+
+
+all_grids_on();
+
 
 
 
