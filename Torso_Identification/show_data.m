@@ -1,13 +1,13 @@
-% clear all; 
+clear all; 
 % close all; 
 clc;
 
 %% on sergio
-% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
 %% on my pc
-filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
-filename = 'manual_ref07';
+filename = 'sine_tr_up_up';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -32,7 +32,11 @@ for i=2:1:sum(vectorsizes)+1
     if ~isempty(indices), 
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
+        for m=indices
+            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+        end
     end
+    
     
     signal_count = signal_count+1;
 end
@@ -44,23 +48,32 @@ u1 = trace{2}.signal{1};
 u2 = trace{2}.signal{2};
 enc1 = trace{3}.signal{1};
 enc2 = trace{3}.signal{2};
-
+err1 = ref1-enc1;
+err2 = ref2-enc2;
 
 %% plot results
+n_plots = 3; i_p = 1;
 figure; 
-subplot(4,1,1);
+subplot(n_plots,1,i_p); i_p = i_p+1;
 plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; 
-subplot(4,1,2);
+subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,u1,time,u2); ylabel('control [V]'); grid on;
-subplot(4,1,3);
-plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
-subplot(4,1,4);
-plot(time,ref1-enc1,time,ref2-enc2); ylabel('err [m]'); grid on;
+% subplot(n_plots,1,i_p);i_p = i_p+1;
+% plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
+subplot(n_plots,1,i_p);i_p = i_p+1;
+plot(time,err1,time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
 
+%%
+% figure;
+% plot(enc1,u2); grid on;
+% xlabel('enc2 m'); ylabel('input1 V');
+% figure;
+% plot(enc1,u1); grid on;
+% xlabel('enc2 m'); ylabel('input2 V');
 %% save data
-ref = [ref1, ref2];
-enc = [enc1, enc2];
-u = [u1, u2];
-
-save([filename,'.mat'],'ref','enc','u','time')
+% ref = [ref1, ref2];
+% enc = [enc1, enc2];
+% u = [u1, u2];
+% 
+% save(['data/',filename,'.mat'],'ref','enc','u','time')
