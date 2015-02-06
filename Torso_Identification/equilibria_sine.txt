@@ -1,0 +1,20 @@
+
+Equilibrium Voltage legs, up, up, model = 0.3066, measurement = 0.1667
+Equilibrium Voltage legs, up,  c, model = 0.2498, measurement = 0.1352
+Equilibrium Voltage legs, up, do, model = 0.2185, measurement = 0.1206
+Equilibrium Voltage legs,  c, up, model = 0.3741, measurement = 0.2109
+Equilibrium Voltage legs,  c,  c, model = 0.3338, measurement = 0.1905
+Equilibrium Voltage legs,  c, do, model = 0.3045, measurement = 0.1761
+Equilibrium Voltage legs, do, do, model = 0.4248, measurement = 0.2291
+                                                                0.26
+                                                                0.26
+
+Equilibrium Voltage trunk, up, up, model = 0.0677, measurement = 0.0683
+Equilibrium Voltage trunk, up,  c, model = 0.1137, measurement = 0.0889
+Equilibrium Voltage trunk, up, do, model = 0.1587, measurement = 0.1085
+Equilibrium Voltage trunk,  c, up, model = 0.0191, measurement = 0.0417
+Equilibrium Voltage trunk,  c,  c, model = 0.0802, measurement = 0.0723
+Equilibrium Voltage trunk,  c, do, model = 0.1401, measurement = 0.0997
+Equilibrium Voltage trunk, do, up, model = -0.0262, measurement = 0.0170
+Equilibrium Voltage trunk, do,  c, model = 0.0436, measurement = 0.0529
+Equilibrium Voltage trunk, do, do, model = 0.1120, measurement = 0.0874
