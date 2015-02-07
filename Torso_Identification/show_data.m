@@ -7,7 +7,7 @@ filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
 %% on my pc
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
-filename = 'sine_leg_do_c_crash2';
+filename = 'ffw01';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -33,7 +33,7 @@ for i=2:1:sum(vectorsizes)+1
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
         for m=indices
-%             trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
         end
     end
     
@@ -51,6 +51,9 @@ enc2 = trace{3}.signal{2};
 err1 = ref1-enc1;
 err2 = ref2-enc2;
 
+% tr1 = trace{4}.signal{1};
+% tr2 = trace{4}.signal{2};
+
 %% plot results
 n_plots = 4; i_p = 1;
 figure; 
@@ -64,6 +67,14 @@ subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,err1,time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
 
+%% plot reference
+figure; 
+subplot(3,1,1); plot(time,ref1,time,ref2); ylabel('ref m'); 
+subplot(3,1,2); plot_tdiff(time,ref1); hold all;
+plot_tdiff(time,ref2); ylabel('ref vel m/s');
+subplot(3,1,3); plot(time(1:end-2),diff(diff(ref1).*1000));hold all;
+plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
+all_grids_on(); linkaxes(get(gcf,'children'),'x');
 %%
 % figure;
 % plot(enc1,u2); grid on;
