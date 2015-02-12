@@ -3,11 +3,11 @@ close all;
 clc;
 
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/add_mass/';
 %% on my pc
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
-filename = 'ffw01';
+filename = 'upper_20_mass01';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -33,7 +33,7 @@ for i=2:1:sum(vectorsizes)+1
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
         for m=indices
-            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+%             trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
         end
     end
     
@@ -55,26 +55,27 @@ err2 = ref2-enc2;
 % tr2 = trace{4}.signal{2};
 
 %% plot results
-n_plots = 4; i_p = 1;
+n_plots = 3; i_p = 1;
 figure; 
 subplot(n_plots,1,i_p); i_p = i_p+1;
-plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; 
+plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; hold all;
+plot(time,enc1,time,enc2); legend('ref1','ref2','enc1','enc2');
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,u1,time,u2); ylabel('control [V]'); grid on; 
-subplot(n_plots,1,i_p);i_p = i_p+1;
-plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
+% subplot(n_plots,1,i_p);i_p = i_p+1;
+% plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,err1,time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
 
 %% plot reference
-figure; 
-subplot(3,1,1); plot(time,ref1,time,ref2); ylabel('ref m'); 
-subplot(3,1,2); plot_tdiff(time,ref1); hold all;
-plot_tdiff(time,ref2); ylabel('ref vel m/s');
-subplot(3,1,3); plot(time(1:end-2),diff(diff(ref1).*1000));hold all;
-plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
-all_grids_on(); linkaxes(get(gcf,'children'),'x');
+% figure; 
+% subplot(3,1,1); plot(time,ref1,time,ref2); ylabel('ref m'); 
+% subplot(3,1,2); plot_tdiff(time,ref1); hold all;
+% plot_tdiff(time,ref2); ylabel('ref vel m/s');
+% subplot(3,1,3); plot(time(1:end-2),diff(diff(ref1).*1000));hold all;
+% plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
+% all_grids_on(); linkaxes(get(gcf,'children'),'x');
 %%
 % figure;
 % plot(enc1,u2); grid on;
@@ -83,8 +84,8 @@ all_grids_on(); linkaxes(get(gcf,'children'),'x');
 % plot(enc1,u1); grid on;
 % xlabel('enc2 m'); ylabel('input2 V');
 %% save data
-% ref = [ref1, ref2];
-% enc = [enc1, enc2];
-% u = [u1, u2];
-% 
-% save(['data/',filename,'.mat'],'ref','enc','u','time')
+ref = [ref1, ref2];
+enc = [enc1, enc2];
+u = [u1, u2];
+
+save(['add_mass/',filename,'.mat'],'ref','enc','u','time')
