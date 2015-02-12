@@ -4,7 +4,7 @@ clear all; close all; clc;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 load manual_ref07;
-load motion_Volt_angle;
+load /home/ton/Dropbox/Linux/Matlab/Torso/Model/motion_Volt_angle;
 
 %% compute reference trajectory
 Ts = 0.001;

@@ -38,7 +38,7 @@ for i=1:1:3
 
 
         %% Equilibrium model
-        load motion_Volt_angle
+        load /home/ton/Dropbox/Linux/Matlab/Torso/Model/motion_Volt_angle
         xsp1 = ref1(i); xsp2 = ref2(j);
         qn = [spindle1_to_angle0(xsp1);spindle2_to_angle2(xsp2)];
         qdn = [0;0];
@@ -60,7 +60,7 @@ for i=1:1:3
     plot(ref2,tau_mod(i,:),'-*',ref2,tau_meas(i,:),'--*'); hold all;
 end
 xlabel('Spindle length [m]'); ylabel('Input Voltage');
-legend('meas up','mod up','meas c','mod c','meas do','mod do')
+legend('mod up','meas up','mod c','meas c','mod do','meas do')
     
     
 all_grids_on();
