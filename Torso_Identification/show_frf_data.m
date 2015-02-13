@@ -149,11 +149,11 @@ figure(gcf);
 subplot(2,1,1); grid on; ylabel('Magnitude db');
 subplot(2,1,2); grid on; ylabel('angle degrees'); xlabel('frequency Hz');
 %% save frf
-err = [err1,err2];
-dd = [d1,d2];
-cc = [c1,c2];
-uu = [u1,u2];
-save(['frf/',filename],'H','hz','err','dd','cc','uu','Coh_du','Coh_de');
+% err = [err1,err2];
+% dd = [d1,d2];
+% cc = [c1,c2];
+% uu = [u1,u2];
+% save(['frf/',filename],'H','hz','err','dd','cc','uu','Coh_du','Coh_de');
 
 all_grids_on();
         end
