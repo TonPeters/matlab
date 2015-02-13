@@ -3,11 +3,13 @@ close all;
 clc;
 
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/add_mass/';
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_trunk/';
 %% on my pc
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
-
-filename = 'upper_20_mass01';
+fig1 = figure;
+fil = {'04','06','08','10','12','14','16','18','20','22','24','26'};
+for k=1:1:length(fil)
+filename = ['vel0',fil{k}];
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -33,7 +35,7 @@ for i=2:1:sum(vectorsizes)+1
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
         for m=indices
-%             trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
         end
     end
     
@@ -77,9 +79,9 @@ linkaxes(get(gcf,'children'),'x');
 % plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
 % all_grids_on(); linkaxes(get(gcf,'children'),'x');
 %%
-% figure;
-% plot(enc1,u2); grid on;
-% xlabel('enc2 m'); ylabel('input1 V');
+figure(fig1);
+plot(enc2,u2); grid on; hold all
+xlabel('enc2 m'); ylabel('input1 V');
 % figure;
 % plot(enc1,u1); grid on;
 % xlabel('enc2 m'); ylabel('input2 V');
@@ -88,4 +90,6 @@ ref = [ref1, ref2];
 enc = [enc1, enc2];
 u = [u1, u2];
 
-save(['add_mass/',filename,'.mat'],'ref','enc','u','time')
+save(['../data/friction_trunk/',filename,'.mat'],'ref','enc','u','time')
+
+end

@@ -57,5 +57,9 @@ subplot(2,1,2); plot(time,tau_meas,time2,tau_model);
 ylabel('Motor torque [Nm]'); xlabel('Time [s]');
 linkaxes(get(gcf,'children'),'x');
 
+%% save
+% save_report(gcf,'/home/ton/Dropbox/Linux/Report/Images/Model/','traject_meas_mod','custom',[11 10]);
+
+
 all_grids_on();
 

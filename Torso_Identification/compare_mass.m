@@ -51,6 +51,17 @@ plot((spindle2_to_angle2(enc0)+angle_offset)./pi*180,u0,(spindle2_to_angle2(enc1
     (spindle2_to_angle2(enc20(1:64000))+angle_offset)./pi*180,u20(1:64000)); grid on;
 xlabel('angle w.r.t. floor [deg]'); ylabel('input1 V');
 
+
+%% save
+% th_0k = (spindle2_to_angle2(enc0)+angle_offset)./pi*180;
+% th_10k= (spindle2_to_angle2(enc10)+angle_offset)./pi*180;
+% th_20k= (spindle2_to_angle2(enc20(1:64000))+angle_offset)./pi*180;
+% u_0k = u0;
+% u_10k = u10;
+% u_20k = u20(1:64000);
+% 
+% save('add_mass/upper_3mass.mat','th_0k','th_10k','th_20k','u_0k','u_10k','u_20k');
+
 % % add dependency on angle force applied
 % th2_0 = spindle2_to_angle2(enc0);
 % red0 =  -0.4715.*th2_0.*th2_0+  1.516.*th2_0-0.2201;
