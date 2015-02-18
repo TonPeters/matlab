@@ -13,7 +13,7 @@ fig = figure; scr rt;
 fig2 = figure; scr lt;
 for i=1:1:3
     pos = pos_l{i};
-    load(['data/static_leg',pos,'_120s.mat']);
+    load(['../data/static_leg',pos,'_120s.mat']);
     if strcmp(pos,'Up')
         st1 = 5; st2 = 55; en1 = 48; en2 = 100;
     elseif strcmp(pos,'C')
