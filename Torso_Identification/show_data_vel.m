@@ -7,7 +7,8 @@ filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_t
 %% on my pc
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 fig1 = figure;
-fil = {'04','06','08','10','12','14','16','18','20','22','24','26'};
+fil = {'18','20','22','24','26'}; %'04','06','08','10','12','14','16',
+
 for k=1:1:length(fil)
 filename = ['vel0',fil{k}];
 
@@ -79,17 +80,18 @@ linkaxes(get(gcf,'children'),'x');
 % plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
 % all_grids_on(); linkaxes(get(gcf,'children'),'x');
 %%
+indices = find(diff(ref2)>0);
 figure(fig1);
-plot(enc2,u2); grid on; hold all
+plot(enc2(indices),err2(indices)); grid on; hold all
 xlabel('enc2 m'); ylabel('input1 V');
 % figure;
 % plot(enc1,u1); grid on;
 % xlabel('enc2 m'); ylabel('input2 V');
 %% save data
-ref = [ref1, ref2];
-enc = [enc1, enc2];
-u = [u1, u2];
-
-save(['../data/friction_trunk/',filename,'.mat'],'ref','enc','u','time')
+% ref = [ref1, ref2];
+% enc = [enc1, enc2];
+% u = [u1, u2];
+% 
+% save(['../data/friction_trunk/',filename,'.mat'],'ref','enc','u','time')
 
 end

@@ -76,6 +76,6 @@ r_rF2_th2 = FrF2_th2.p1;
 
 figure;
 plot(th2,rF2_th2,th2,feval(FrF2_th2,th2),th2,feval(FrF2_th2_p2,th2));
-xlabel('anlge 2'); ylabel('Reduction force 2'); legend('exact','fit');
+xlabel('anlge 2'); ylabel('Reduction force 2'); legend('exact','fit1','fit2');
 
 all_grids_on();

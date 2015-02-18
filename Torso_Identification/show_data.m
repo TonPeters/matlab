@@ -8,7 +8,7 @@ filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/ffw_trunk/
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
 
-filename = 'acc_added';
+filename = 'm10kg_vel024_acc024_PD300_st364_ffa08';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
@@ -61,15 +61,15 @@ ffw2 = trace{4}.signal{2};
 n_plots = 3; i_p = 1;
 figure; 
 subplot(n_plots,1,i_p); i_p = i_p+1;
-plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; hold all;
-plot(time,enc1,time,enc2); legend('ref1','ref2','enc1','enc2');
+plot(time,ref2); ylabel('ref [m]'); grid on; hold all;
+plot(time,enc2); legend('ref2','enc2');
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,u2); ylabel('control [V]'); grid on;  hold all;
 plot(time,ffw2);
 % subplot(n_plots,1,i_p);i_p = i_p+1;
 % plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
 subplot(n_plots,1,i_p);i_p = i_p+1;
-plot(time,err1,time,err2); ylabel('err [m]'); grid on;
+plot(time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
 
 %% plot results
@@ -77,15 +77,29 @@ n_plots = 3; i_p = 1;
 figure; 
 subplot(n_plots,1,i_p); i_p = i_p+1;
 plot_tdiff(time,ref2); ylabel('ref [m]'); grid on; hold all;
-% plot_tdiff(time,ref2);
+plot_tdiff(time,enc2);
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,u2); ylabel('control [V]'); grid on;  hold all;
 plot(time,ffw2);
 % subplot(n_plots,1,i_p);i_p = i_p+1;
 % plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
 subplot(n_plots,1,i_p);i_p = i_p+1;
-plot(time,err1,time,err2); ylabel('err [m]'); grid on;
+plot(time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
+
+
+%% plot error peaks
+irem = find(diff(ref2)<0,1,'first');
+ist = find(diff(ref2(irem+5000:end))>0,1,'first')+irem+5000;
+iend = ist;
+figure;
+while (iend<length(time))
+    iend = ist+14000
+    if iend>length(time), iend = length(time); end;
+    plot(enc2(ist:iend-7000),u2(ist:iend-7000)); hold all;
+    ist = iend;
+end
+
 
 %% plot reference
 % figure; 
@@ -103,9 +117,10 @@ linkaxes(get(gcf,'children'),'x');
 % plot(enc1,u1); grid on;
 % xlabel('enc2 m'); ylabel('input2 V');
 %% save data
-% ref = [ref1, ref2];
+% ref = [ref1, ref2]; 
 % enc = [enc1, enc2];
 % u = [u1, u2];
 
 % save(['../data/friction_trunk/',filename,'.mat'],'ref','enc','u','time')
 
+all_grids_on();

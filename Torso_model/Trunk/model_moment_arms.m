@@ -6,7 +6,7 @@ clc;
 %-------------------------------------------------------------------------%
 
 %% get measures from model
-run torso_measures_NX.m
+run torso_measures_NX
 
 % m1 = M_LRL+M_LFL;
 % m2 = M_UL;
