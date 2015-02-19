@@ -1,5 +1,5 @@
 clear all; 
-% close all; 
+close all; 
 clc;
 
 %% on sergio
@@ -8,10 +8,12 @@ filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/ffw_trunk/
 % filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
 
 
-filename = 'm10kg_vel024_acc024_PD300_st364_ffa08';
+filename = 'm10kg_vel026_acc052_PD500_st360_ffa08_leg09';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
+t_start = 0;
+t_end = 49780;
 
 GEARRATIO 			= 9.0/169.0;		
 BITS2CURRENT 		= 25.0/2046.0; 		
@@ -19,7 +21,7 @@ CURRENT2TORQUE 		= 29.2e-3;
 BITS2WHEELTORQUE 	= BITS2CURRENT * CURRENT2TORQUE * 1.0/GEARRATIO;
 ENC2RAD = 2.0*3.141592*9.0/169.0/(500.0*4.0);
 
-sample_i = data.data(:,1);
+sample_i = data.data(1:t_end,1);
 trace_count = 1;
 signal_count = 1;
 for i=2:1:sum(vectorsizes)+1
@@ -27,7 +29,7 @@ for i=2:1:sum(vectorsizes)+1
         trace_count = trace_count+1;
         signal_count = 1;
     end
-    trace{trace_count}.signal{signal_count} = data.data(:,i);
+    trace{trace_count}.signal{signal_count} = data.data(1:t_end,i);
     
     indices = find(trace{trace_count}.signal{signal_count}==-1);
     if ~isempty(indices), 
@@ -76,7 +78,7 @@ linkaxes(get(gcf,'children'),'x');
 n_plots = 3; i_p = 1;
 figure; 
 subplot(n_plots,1,i_p); i_p = i_p+1;
-plot_tdiff(time,ref2); ylabel('ref [m]'); grid on; hold all;
+plot_tdiff(time,ref2); ylabel('ref [m/s]'); grid on; hold all;
 plot_tdiff(time,enc2);
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,u2); ylabel('control [V]'); grid on;  hold all;
@@ -89,16 +91,45 @@ linkaxes(get(gcf,'children'),'x');
 
 
 %% plot error peaks
-irem = find(diff(ref2)<0,1,'first');
-ist = find(diff(ref2(irem+5000:end))>0,1,'first')+irem+5000;
+duration = 6000;
+irem = find(diff(enc2)<-2e-6,1,'first');
+ist = find(diff(enc2(irem+duration-1000:end))>2e-6,1,'first')+irem+duration-1000-150;
 iend = ist;
-figure;
+fig1 = figure;
 while (iend<length(time))
-    iend = ist+14000
-    if iend>length(time), iend = length(time); end;
-    plot(enc2(ist:iend-7000),u2(ist:iend-7000)); hold all;
+    iend = ist+2*duration;
+    plend = iend-duration;
+    if plend>length(time), plend = length(time); end;
+    figure(fig1); subplot(3,1,1);
+    plot(enc2(ist:plend),err2(ist:plend)); hold all; ylabel('err [m]')
+     subplot(3,1,2);
+    plot(enc2(ist:plend),u2(ist:plend)+ffw2(ist:plend)); hold all;ylabel('u_{fb} [V]')
+     subplot(3,1,3);
+    plot(enc2(ist:plend),diff(enc2((ist-1:plend)))); hold all;ylabel('ref [m/s]')
+%     plot_tdiff(time(ist:plend)-time(ist),enc2(ist:plend)); hold all;
     ist = iend;
 end
+linkaxes(get(gcf,'children'),'x');
+
+all_grids_on();
+
+%% plot input
+res = 5/1023;
+figure
+subplot(2,1,1)
+plot(time,ffw2+u2,time,ffw2,time,u2,time,ones(size(time)).*res,'y',time,-ones(size(time)).*res,'y'); 
+grid on; legend('u_{total}','u_{ffw}','u_{fb}','+res','-res')
+subplot(2,1,2)
+plot(time,round((ffw2+u2)./res).*res,time,round(ffw2./res).*res,time,round(u2./res).*res); 
+linkaxes(get(gcf,'children'),'x');
+
+
+%% plot
+
+% figure
+% plot(diff(enc2(1000:2000)),u2(1000:2000-1));
+% 
+% all_grids_on();
 
 
 %% plot reference
