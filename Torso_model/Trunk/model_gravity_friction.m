@@ -6,7 +6,7 @@ clc;
 %-------------------------------------------------------------------------%
 
 %% get measures from model
-run torso_measures_NX.m
+run torso_measures_NX
 
 % m1 = M_LRL+M_LFL;
 % m2 = M_UL;
@@ -31,9 +31,16 @@ lF = lJK;
 th_r = -th_leg+angle0_to_angle1(th_leg);
 m1 = 8;
 % m2 = 10;
+
+% without direction sign
 m1_lcm1 = 2.2819;
 fric_c = 393.8;
 fric_dir = 128.6;
+
+% with direction sign
+m1_lcm1 = 2.3982;
+fric_c = 393.6375;
+fric_dir =  118.6703;
 
 % clear parameters
 clearvars -except l1 lF th_r m2 th_0_min th_0_max g m1_lcm1 fric_c fric_dir
@@ -69,7 +76,8 @@ for m2 = [0 10 20]
     F_appl = F_eff./sin(thF);
     
     % Add spindle friction term
-    Ffric = fric_c*sign(th0d_n)+fric_dir;
+%     Ffric = fric_c*sign(th0d_n)+fric_dir;
+    Ffric = fric_c*sign(th0d_n)+fric_dir*sign(cos(th0_n-th_r));
     F_appl_fric = F_appl+Ffric;
 
     % Spindle torque needed
@@ -107,7 +115,8 @@ for m2 = [0 10 20]
 end
 % close(fF,fT,fI);
 %% measurements
-load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+% load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 figure; scr rt;
 plot(th_0k,u_0k,'b:','linewidth',ps.linewidthSmall); hold all;
 q10 = th_10k./180*pi+th_r; qF10 = spindle2_to_Fangle2(angle2_to_spindle2(q10));

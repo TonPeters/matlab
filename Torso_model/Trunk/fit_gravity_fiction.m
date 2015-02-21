@@ -6,7 +6,7 @@ clc;
 %-------------------------------------------------------------------------%
 
 %% get measures from model
-run torso_measures_NX.m
+run torso_measures_NX
 
 % m1 = M_LRL+M_LFL;
 % m2 = M_UL;
@@ -21,6 +21,7 @@ lDJ = di(D,J);
 lJL = di(J,L);
 aBAZ = an(B,A,A+[0;-1;0]);
 th_leg = 0.56;
+th_leg2 = 0.2;
 g = 9.81;
 
 th_0_min = spindle2_to_angle2(min_spindle2);
@@ -29,15 +30,17 @@ l1 = lJL;
 lcm1 = l1*0.7;
 lF = lJK;
 th_r = -th_leg+angle0_to_angle1(th_leg);
+th_r2 = -th_leg2+angle0_to_angle1(th_leg2);
 m1 = 8;
 m2 = 0;
 m1_lcm1 = 2.63;
 
 % clear parameters
-clearvars -except l1 lcm1 lF th_r m1 m2 th_0_min th_0_max g m1_lcm1
+clearvars -except l1 lcm1 lF th_r m1 m2 th_0_min th_0_max g m1_lcm1 th_r2
 plotsettings
 %% load data to fit
-load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+% load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 q_meas = th_0k./180*pi+th_r; qF0 = spindle2_to_Fangle2(angle2_to_spindle2(q_meas));
 tau_meas = u_0k;
 
