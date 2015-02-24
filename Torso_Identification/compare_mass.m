@@ -30,6 +30,25 @@ err20 = ref20-enc20;
 i20 = find(ref20>0.41,1,'first');
 t20 = time20(i20);
 
+load 'add_mass/m10kg_vel004_leg02';
+ref102 = ref(:,2);
+time102 = time;
+enc102 = enc(:,2);
+u102 = u(:,2);
+err102 =ref102-enc102;
+i102 = find(ref102>0.41,1,'first');
+t102 = time10(i102);
+th02 = spindle1_to_angle0(mean(ref(:,1)));
+th12 = angle0_to_angle1(th02);
+angle_offset2 = th02-th12;
+load 'add_mass/m0kg_vel004_leg02';
+ref02 = ref(:,2);
+time02 = time;
+enc02 = enc(:,2);
+u02 = u(:,2);
+err02 = ref02-enc02;
+i02 = find(ref02>0.41,1,'first');
+t02 = time02(i02);
 
 %% plot results
 n_plots = 3; i_p = 1;
@@ -48,7 +67,8 @@ linkaxes(get(gcf,'children'),'x');
 %%
 figure;
 plot((spindle2_to_angle2(enc0)+angle_offset)./pi*180,u0,(spindle2_to_angle2(enc10)+angle_offset)./pi*180,u10,...
-    (spindle2_to_angle2(enc20(1:64000))+angle_offset)./pi*180,u20(1:64000)); grid on;
+    (spindle2_to_angle2(enc20(1:64000))+angle_offset)./pi*180,u20(1:64000)); grid on; hold all;
+plot((spindle2_to_angle2(enc02)+angle_offset2)./pi*180,u02,(spindle2_to_angle2(enc102)+angle_offset2)./pi*180,u102);
 xlabel('angle w.r.t. floor [deg]'); ylabel('input1 V');
 
 
@@ -61,6 +81,13 @@ xlabel('angle w.r.t. floor [deg]'); ylabel('input1 V');
 % u_20k = u20(1:64000);
 % 
 % save('add_mass/upper_3mass.mat','th_0k','th_10k','th_20k','u_0k','u_10k','u_20k');
+
+% th_0k2 = (spindle2_to_angle2(enc02)+angle_offset2)./pi*180;
+% th_10k2= (spindle2_to_angle2(enc102)+angle_offset2)./pi*180;
+% u_0k2 = u02;
+% u_10k2 = u102;
+% 
+% save('add_mass/upper_2mass_leg02.mat','th_0k2','th_10k2','u_0k2','u_10k2');
 
 % % add dependency on angle force applied
 % th2_0 = spindle2_to_angle2(enc0);
