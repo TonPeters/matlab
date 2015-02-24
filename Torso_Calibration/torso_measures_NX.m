@@ -131,7 +131,7 @@ N_springs_trunk = 0;        % amount of springs used
 
 %% limits
 max_spindle1 = 0.394; % max is 0.41 is angle0 1.11 and angle1 2.5884
-min_spindle1 = 0.244; %0.2366 is angle0 0.0
+min_spindle1 = 0.259; %0.2366 is angle0 0.0
 init_spindle1 = di(C,E);
 max_spindle2 = 0.456; % 0.489 is the absolute maximum (equilibrium point)
 min_spindle2 = 0.360; % 0.3315 is the absolut minimum (equilibrium point)

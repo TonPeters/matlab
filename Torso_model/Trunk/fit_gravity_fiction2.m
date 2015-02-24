@@ -41,6 +41,8 @@ plotsettings
 %% load data to fit
 % load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 fig1 = figure;scr lt; fig2 = figure; scr rt;
+fig3 = figure; scr rb;
+
 leg_list = {'m0 c','m10 c','m20 c','m0 d','m10 d'};
 leg_list2 = {}; leg_count = 1;
 params = zeros(3,5);
@@ -143,11 +145,26 @@ qd_m = qd_m(indices);
 
 %% optimization fit
 % initial gues
-param0 = [2.7955;  394.8329;   91.9194];
+param0 = [2.*l1/4;  400;   100];
 
-% [param,resnorm,exitflag] = fminunc(@(param)costfunc_friction_gravity2(param,q_m,qd_m,tau_m,m2,data_offset),param0)
-
-% param=[2.2819; 393.8369;  128.6133];
+% % [param,resnorm,exitflag] = fminunc(@(param)costfunc_friction_gravity2(param,q_m,qd_m,tau_m,m2,data_offset),param0)
+% 
+% lb = [2.*l1/4; 10; 10];
+% ub = [8*l1; 10000; 10000];
+% opts = optimset('lsqnonlin');
+% opts = optimset(opts,'tolfun',1E-16,'display','off','tolx',1E-16);
+% % [param,resnorm,residual,exitflag] = lsqnonlin(@(param)costfunc_friction_gravity_nonlin(param,q_m,qd_m,tau_m,m2,data_offset),param0,lb,ub,opts);
+% % exitflag    
+% % param
+% 
+% problem = createOptimProblem('lsqnonlin','objective',...
+%     @(param)costfunc_friction_gravity_nonlin(param,q_m,qd_m,tau_m,m2,data_offset),...
+%     'x0',param0,'lb',lb,'ub',ub,'options',opts);
+% ms = MultiStart('Display','off');
+% n_startpoints = 2;
+% [param,fval,exitflag] = run(ms,problem,n_startpoints)
+    
+param = [2.7955  394.8329   91.9194];
 
 % m1_lcm1 = 2.63;
 % Kc = 0;
@@ -157,7 +174,7 @@ param0 = [2.7955;  394.8329;   91.9194];
 %     2.2914    2.7229    3.7236    2.4522    2.7874
 %   394.1316  391.5851  408.6118  387.9323  391.9037
 %   128.1708   94.0193   39.4573  114.0061   83.9436
-param = [2.7955  394.8329   91.9194];
+% param = [2.7955  394.8329   91.9194];
 % params positive velocity
 %     2.2404    2.3965    2.8949    2.0238    1.7924
 %   414.2289  403.0824  388.4929  407.4627  401.6814
@@ -250,6 +267,20 @@ subplot(2,1,2)
 plot((q_m(indices2)-data_offset)./pi*180,tau_m(indices2)-V_mod(indices2),'color',ps.list{i}); hold all;
 ylabel('model error -vel');
 
+% Invest gravity torque
+M_joint_meas = tau_m.*(rsp*rgear*Kmm*Kelm).*sin(thF).*lF;
+
+% figure(fig3);
+% subplot(2,1,1)
+% plot((q_m(indices)-data_offset)./pi*180,M_joint_meas(indices),'color',ps.list{i}); hold all;
+% ylabel('Moment [Nm] +vel');
+% legend(leg_list2)
+% subplot(2,1,2)
+% plot((q_m(indices2)-data_offset)./pi*180,M_joint_meas(indices2),'color',ps.list{i}); hold all;
+% ylabel('Moment [Nm] -vel');
+
 end
+linkaxes(get(fig3,'children'),'x');
+set(get(fig3,'CurrentAxes'),'xlim',[40 95]);
 params
 all_grids_on();

@@ -23,10 +23,12 @@ aBAZ = an(B,A,A+[0;-1;0]);
 th_leg = 0.56;
 g = 9.81;
 
-th_0_min = spindle2_to_angle2(min_spindle2);
-th_0_max = spindle2_to_angle2(max_spindle2);
-l1 = lJL;
-lcm1 = l1*0.7;
+th_2_min = spindle2_to_angle2(min_spindle2);
+th_2_max = spindle2_to_angle2(max_spindle2);
+th_0_min = spindle0_to_angle0(min_spindle0);
+th_0_max = spindle0_to_angle0(max_spindle0);
+l3 = lJL;
+% lcm3 = l1*0.7;
 lF = lJK;
 th_r = -th_leg+angle0_to_angle1(th_leg);
 m1 = 8;
@@ -35,7 +37,7 @@ m1_lcm1 = 2.63;
 m1_lcm1 = 2.2819;
 
 % clear parameters
-clearvars -except l1 lcm1 lF th_r m1 m2 th_0_min th_0_max g m1_lcm1
+clearvars -except g
 plotsettings
 %%
 syms th0 th0d th0dd
