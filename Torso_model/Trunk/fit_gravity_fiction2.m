@@ -39,6 +39,7 @@ m1_lcm1 = 2.63;
 clearvars -except l1 lcm1 lF th_r m1 m2 th_0_min th_0_max g m1_lcm1 th_r2
 plotsettings
 %% load data to fit
+PC = 'ton/git_ton';
 % load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 fig1 = figure;scr lt; fig2 = figure; scr rt;
 fig3 = figure; scr rb;
@@ -52,7 +53,7 @@ for i=1:5
     
     % 0kg 0.56rad
     if i==1
-        load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+        load(['/home/',PC,'/matlab/Torso_Identification/add_mass/upper_3mass.mat']);
         data_angle  = th_0k; % measured angle
         data_offset = th_r; % angle offset
         data_input  = u_0k; % control input
@@ -64,7 +65,7 @@ for i=1:5
         vel_stop    = 64*1000+1;   % end negative velocity
     elseif i==2
     % 10kg 0.56rad
-        load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+        load(['/home/',PC,'/matlab/Torso_Identification/add_mass/upper_3mass.mat']);
         data_angle  = th_10k; % measured angle
         data_offset = th_r; % angle offset
         data_input  = u_10k; % control input
@@ -76,7 +77,7 @@ for i=1:5
         vel_stop    = 58*1000+1;   % end negative velocity
     elseif i==3
     % 20kg 0.56rad
-        load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+        load(['/home/',PC,'/matlab/Torso_Identification/add_mass/upper_3mass.mat']);
         data_angle  = th_20k; % measured angle
         data_offset = th_r; % angle offset
         data_input  = u_20k; % control input
@@ -88,7 +89,7 @@ for i=1:5
         vel_stop    = 60*1000+1;   % end negative velocity
     elseif i==4
     % 0kg 0.2rad
-        load '/home/amigo/matlab/Torso_Identification/add_mass/upper_2mass_leg02.mat'
+        load(['/home/',PC,'/matlab/Torso_Identification/add_mass/upper_2mass_leg02.mat']);
         data_angle  = th_0k2; % measured angle
         data_offset = th_r2; % angle offset
         data_input  = u_0k2; % control input
@@ -100,7 +101,7 @@ for i=1:5
         vel_stop    = 53*1000+1;   % end negative velocity
     elseif i==5
     % 10kg 0.2rad
-        load '/home/amigo/matlab/Torso_Identification/add_mass/upper_2mass_leg02.mat'
+        load(['/home/',PC,'/matlab/Torso_Identification/add_mass/upper_2mass_leg02.mat']);
         data_angle  = th_10k2; % measured angle
         data_offset = th_r2; % angle offset
         data_input  = u_10k2; % control input
@@ -280,7 +281,7 @@ M_joint_meas = tau_m.*(rsp*rgear*Kmm*Kelm).*sin(thF).*lF;
 % ylabel('Moment [Nm] -vel');
 
 end
-linkaxes(get(fig3,'children'),'x');
-set(get(fig3,'CurrentAxes'),'xlim',[40 95]);
+linkaxes(get(fig2,'children'),'x');
+set(get(fig2,'CurrentAxes'),'xlim',[40 95]);
 params
 all_grids_on();

@@ -27,7 +27,7 @@ th_2_min = spindle2_to_angle2(min_spindle2);
 th_2_max = spindle2_to_angle2(max_spindle2);
 th_0_min = spindle1_to_angle0(min_spindle1);
 th_0_max = spindle1_to_angle0(max_spindle1);
-l3 = lJL;
+
 % lcm3 = l1*0.7;
 lF2 = lJK;
 lF1 = lAE;
