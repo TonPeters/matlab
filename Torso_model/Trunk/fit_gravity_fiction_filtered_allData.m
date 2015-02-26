@@ -173,8 +173,8 @@ for i=1:1:5
     tau_grav{i} = (tau_p+tau_n)./2+tau_grav_shift;
 
     % compute friction term
-    tau_fric_p{i} = tau_p-tau_grav{i};
-    tau_fric_n{i} = tau_n-tau_grav{i};    
+    tau_fric_p{i} = tau_p-(tau_grav{i}-tau_grav_shift);
+    tau_fric_n{i} = tau_n-(tau_grav{i}-tau_grav_shift);    
 
 
     figure(fig11);
@@ -185,6 +185,14 @@ for i=1:1:5
 
     n_tot = n_tot+length(q_m_s{i});
 end
+
+tau_fric_p_mean =  mean([tau_fric_p{1};tau_fric_p{2};tau_fric_p{3};tau_fric_p{4};tau_fric_p{5}])
+tau_fric_n_mean =  mean([tau_fric_n{1};tau_fric_n{2};tau_fric_n{3};tau_fric_n{4};tau_fric_n{5}])
+figure(fig11);
+plot((q2-data_offset{i})./pi*180,ones(size(q2)).*tau_fric_p_mean,'color',ps.list{1},'linewidth',ps.linewidth); hold all;
+plot((q2-data_offset{i})./pi*180,ones(size(q2)).*tau_fric_n_mean,'color',ps.list{1},'linewidth',ps.linewidth); hold all;
+    
+
 
 q_tot = zeros(n_tot,1);
 qd_tot = q_tot;
