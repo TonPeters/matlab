@@ -29,7 +29,7 @@ dth1_th0 = double(subs(r_sym,q0_sym,th0));        % gear ratio joint 1 to joint 
 Fdth1_th0 = fit(th0,dth1_th0,'poly4');
 
 figure;
-plot(th0,r_q1_q0,th0,feval(Fdth1_th0,th0));
+plot(th0,dth1_th0,th0,feval(Fdth1_th0,th0));
 xlabel('anlge 0'); ylabel('diff angle 1'); legend('exact','fit');
 
 %% spindle 1 dependant on angle 0
