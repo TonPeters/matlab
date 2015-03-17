@@ -23,7 +23,7 @@ function cost = costfunc_gravity_nonlin_V1(param,q,V_meas,q2)
 %     M_leg = M_0+r_q1_q0.*M_1;
     
     % Joint moments needed (refactored)
-    r_q1_q0 = gear_q1_q0(q0);        % gear ratio joint 1 to joint 2
+    r_q1_q0 = ratio_dq1_q0(q0);        % gear ratio joint 1 to joint 2
 %     r_q1_q0 =  1.8546;                      % gear ratio joint 1 to joint 2
     M1 = cos(q0).*P1;
     M2 = (r_q1_q0-1).*cos(q1-q0).*P2;

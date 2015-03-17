@@ -46,7 +46,7 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g
 plotsettings
 
 %% Settings
-m4 = 0;     % mass of the arms
+m4 = 20;     % mass of the arms
 n = 8;     % grid size
 
 
@@ -129,8 +129,8 @@ V_1 = F_sp1./r_VtoF1;       % Requiered input voltage motor 1
 V_2 = F_sp2./r_VtoF2;       % Requiered input voltage motor 2
 
 % Motor input Current
-I_1 = F_sp1./(K_m*r_gear1*r_sp);       % Requiered input voltage motor 1
-I_2 = F_sp2./(K_m*r_gear2*r_sp);       % Requiered input voltage motor 2
+I_1 = F_sp1./(K_m*r_gear1*r_sp);       % Requiered input current motor 1
+I_2 = F_sp2./(K_m*r_gear2*r_sp);       % Requiered input current motor 2
 
 %% show results
 figure; 

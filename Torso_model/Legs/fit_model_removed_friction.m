@@ -206,7 +206,7 @@ for i=1:1:3
     %% Compute fit output
     q2 = q2+2/180*pi;
     % gear ratio joint 1 depending on joint 2
-    r_q1_q0 = gear_q1_q0(q0);        % gear ratio joint 1 to joint 2
+    r_q1_q0 = ratio_dq1_q0(q0);        % gear ratio joint 1 to joint 2
 
     % Joint moments needed (refactored)
     M_leg = g.*(cos(q0).*P1+...             % P1 = lcm1*m1+l1*m2+l1*m3

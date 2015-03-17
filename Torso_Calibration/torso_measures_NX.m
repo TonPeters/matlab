@@ -142,3 +142,8 @@ init_spindle2 = di(I,K);
 % th_0_max = spindle1_to_angle0(max_spindle1);
 % th_2_min = spindle2_to_angle2(min_spindle2);
 % th_2_max = spindle2_to_angle2(max_spindle2);
+
+% angle limits by mechanical design
+% ankle 0.05 to 1.001 rad
+% knee  0.18 to 2.06  rad
+% hip   1.01 to 2.31  rad
