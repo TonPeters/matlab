@@ -1,4 +1,4 @@
-clear all; 
+% clear all; 
 % close all; 
 clc;
 
@@ -21,7 +21,9 @@ max_current = 41.4;
 res_current = 1*BITS2CURRENT;
 res_torque = res_current*CURRENT2TORQUE;
 
-
+res_wtorque = res_torque/GEARRATIO;
+nom_wtorque = nom_torque/GEARRATIO;
+max_wtorque = max_torque/GEARRATIO;
 
 %% encoder specs
 % resolution
@@ -29,14 +31,15 @@ min_vis_bit = 1;                                    % 1 bit
 res_rad = min_vis_bit*ENC2RAD;                  % 0.0001673 rad
 
 %% Plant visibility
-res_transfer = db(res_rad/res_torque);   %  dB
-nom_transfer = db(res_rad/nom_torque);  %  dB
-max_transfer = db(res_rad/max_torque);  % dB
+res_transfer = db(res_rad/res_wtorque);   %  dB
+nom_transfer = db(res_rad/nom_wtorque);  %  dB
+max_transfer = db(res_rad/max_wtorque);  % dB
 
 
 fprintf('%13s | resolution |  nominal | maximal  |\n','')
 formatspec = '%13s | % 10.4f | % 8.3f | % 8.3f |\n';
 fprintf(formatspec,'torque [Nm]',res_torque,nom_torque,max_torque);
+fprintf(formatspec,'w torque [Nm]',res_wtorque,nom_wtorque,max_wtorque);
 fprintf(formatspec,'current [A]',res_current,nom_current,max_current);
 fprintf(formatspec,'transfer [dB]',res_transfer,nom_transfer,max_transfer);
 

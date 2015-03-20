@@ -1,15 +1,25 @@
 % create single frf
-clear all; close all; clc;
+clear all; 
+close all; 
+clc;
 
 %% select PC
 % on sergio
-% filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
+filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
 % on my pc
-filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
+% filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
 
 %% select file and wheel
-filename = ['19-03-15_FRF_pos_wheel1'];
-wheel = 1;
+% filename = ['19-03-15_FRF_pos_wheel1'];
+% filename = ['20-03-15_FRF_pos_wheel1_noise06_vel60'];
+% filename = ['20-03-15_FRF_pos_wheel1_noise06_vel60_newC'];
+
+for wheel = [1,2,3,4]
+
+filename = ['final/20-03-15_FRF_pos_wheel',num2str(wheel)];
+
+
+
 
 
 data = importdata([filedir,filename,'.dat']);
@@ -45,7 +55,7 @@ for i=2:1:sum(vectorsizes)+1
 end
 
 %%
-cut_start = 1000;
+cut_start = 4000;
 cut_end = 0;
 shift = 1;
 time = sample_i(cut_start:end-shift);
@@ -54,14 +64,14 @@ c = trace{2}.signal{wheel}(cut_start:end-shift);
 e = trace{3}.signal{wheel}(cut_start+shift:end);
 d = u-c;
 
-figure; scr r; 
-subplot(3,1,1)
-plot(time,e); grid on; ylabel('e');
-subplot(3,1,2)
-plot(time,d./BITS2TORQUE); grid on;ylabel('d');
-subplot(3,1,3)
-plot(time,u./BITS2TORQUE); grid on;ylabel('u');
-linkaxes(get(gcf,'children'),'x')
+% figure; scr r; 
+% subplot(3,1,1)
+% plot(time,e); grid on; ylabel('e');
+% subplot(3,1,2)
+% plot(time,d); grid on;ylabel('d [bits]');
+% subplot(3,1,3)
+% plot(time,u); grid on;ylabel('u [bits]');
+% linkaxes(get(gcf,'children'),'x')
 
 % create frf
 % frf settings
@@ -72,12 +82,12 @@ nfft=round(length(e)/naverage);
 window=hann(nfft);
 noverlap=round(nfft*0.5);
 
-[TrS,hz]=tfestimate(d,u,window,noverlap,nfft,fs);
-[Trdu,hz]=mscohere(d,u,window,noverlap,nfft,fs);
-[TrPS,hz]=tfestimate(d,e,window,noverlap,nfft,fs);
-[Trde,hz]=mscohere(d,e,window,noverlap,nfft,fs);
+[S,hz]=tfestimate(d,u,window,noverlap,nfft,fs);
+[Scoh,hz]=mscohere(d,u,window,noverlap,nfft,fs);
+[PS,hz]=tfestimate(d,e,window,noverlap,nfft,fs);
+[PScoh,hz]=mscohere(d,e,window,noverlap,nfft,fs);
 
-H=-TrPS./TrS;
+H=-PS./S;
 
 
 figure; scr r;
@@ -88,11 +98,26 @@ subplot(4,1,2);
 semilogx(hz,angle(H).*(360/2/pi));grid on;
 ylabel('Phase degrees'); xlabel('Frequency [Hz]');hold all;
 subplot(4,1,3); 
-semilogx(hz,(Trdu),hz,(Trde)); grid on;
+semilogx(hz,(Scoh),hz,(PScoh)); grid on; ylim([0 1])
 ylabel('Magnitude'); title('coherence'); legend('d-u','d-e');
 subplot(4,1,4); 
-semilogx(hz,db(TrPS),hz,db(TrS)); grid on;
+semilogx(hz,db(S),hz,db(PS)); grid on;
 ylabel('Magnitude dB'); hold all;
 linkaxes(get(gcf,'children'),'x')
+
+end
+%% controller
+% close all
+% gain = 1.0;
+% Clp = C_lowpass(500,2);
+% Cll = C_leadlag(1.7, 5);
+% 
+% C = gain*Clp*Cll;
+% Hfrd = frd(H,hz,'units','hz');
+% 
+% CP = C*Hfrd;
+% figure
+% frf(Hfrd,CP,C)
+
 
 % save(['frf_wheel',num2str(wheel),'_air.mat'],'H','hz');
