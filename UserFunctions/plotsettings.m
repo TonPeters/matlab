@@ -16,3 +16,4 @@ ps.blue         = [0, 0, 256]/256;
 ps.red          = [256, 0, 0]/256;
 
 ps.list = {ps.tueblue,ps.tuecyan,ps.tuedarkblue,ps.tuegreen,ps.tuered,ps.tuewarmred};
+ps.list2 = {ps.tueblue,ps.tuegreen,ps.tuered,ps.tuecyan,ps.tuepink,ps.tuewarmred};
