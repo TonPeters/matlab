@@ -1,11 +1,13 @@
 % create single frf
 clear all; close all; clc;
 
-%% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
-%% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/frf_measurements/';
+%% select PC
+% on sergio
+% filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
+% on my pc
+filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
 
+%% select file and wheel
 filename = ['19-03-15_FRF_pos_wheel1'];
 wheel = 1;
 
@@ -75,10 +77,6 @@ noverlap=round(nfft*0.5);
 [Trde,hz]=mscohere(d,e,window,noverlap,nfft,fs);
 
 H=-TrPS./TrS;
-
-figure; scr r;
-semilogx(hz,db(TrPS)); grid on;
-ylabel('Magnitude dB'); hold all;
 
 
 figure; scr r;
