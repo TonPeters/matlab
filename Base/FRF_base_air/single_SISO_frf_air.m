@@ -21,6 +21,7 @@ HALFSQRT2 			= 0.7071;%
 GEARRATIO 			= 9.0/169.0;	%	# Gearratio Maxxon GP42C
 BITS2CURRENT 		= 50.0/2046.0; 	%	# Bit value to current value (+-2046 bit FPGA-> +-5V ELMO-> +-50A)
 CURRENT2TORQUE 		= 29.2e-3; 		%	# Torque constant of the motor Maxxon RE35
+BITS2TORQUE         = BITS2CURRENT * CURRENT2TORQUE;
 BITS2WHEELTORQUE 	= BITS2CURRENT * CURRENT2TORQUE * 1.0/GEARRATIO;
 ENC2RAD = 2.0*3.141592*9.0/169.0/(500.0*4.0);
 
@@ -57,9 +58,9 @@ figure; scr r;
 subplot(3,1,1)
 plot(time,e); grid on; ylabel('e');
 subplot(3,1,2)
-plot(time,d./BITS2WHEELTORQUE); grid on;ylabel('d');
+plot(time,d./BITS2TORQUE); grid on;ylabel('d');
 subplot(3,1,3)
-plot(time,u./BITS2WHEELTORQUE); grid on;ylabel('u');
+plot(time,u./BITS2TORQUE); grid on;ylabel('u');
 linkaxes(get(gcf,'children'),'x')
 
 % create frf
