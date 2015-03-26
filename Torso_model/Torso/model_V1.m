@@ -46,7 +46,7 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g
 plotsettings
 
 %% Settings
-m4 = 20;     % mass of the arms
+m4 = 0;     % mass of the arms
 n = 8;     % grid size
 
 

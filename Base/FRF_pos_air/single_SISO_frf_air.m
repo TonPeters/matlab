@@ -1,6 +1,6 @@
 % create single frf
 clear all; 
-close all; 
+% close all; 
 clc;
 
 %% select PC
@@ -14,7 +14,7 @@ filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
 % filename = ['20-03-15_FRF_pos_wheel1_noise06_vel60'];
 % filename = ['20-03-15_FRF_pos_wheel1_noise06_vel60_newC'];
 
-for wheel = [1,2,3,4]
+for wheel = 1 %[1,2,3,4]
 
 filename = ['final/20-03-15_FRF_pos_wheel',num2str(wheel)];
 
