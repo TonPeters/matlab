@@ -19,6 +19,7 @@ function out = save_report(fig,directory,filename,varargin)
     ax = findobj(fig,'type','axes','tag','');
     % set variables
     leg_width = [];
+    fontsize = 10;
     
     width = 10;
     height = 6;   
@@ -37,6 +38,9 @@ function out = save_report(fig,directory,filename,varargin)
             width = width+leg_width;  
         elseif strcmp(plottype,'paperwidth')
             width = 12;
+        elseif strcmp(plottype,'halfpaperwidth')
+            width = 6*1.3;
+            fontsize = 9;
         elseif strcmp(plottype,'custom') % add custom input size
             assert(nargin>4,'not enough input arguments, define size [width height]');
             width = varargin{2}(1);
@@ -46,7 +50,7 @@ function out = save_report(fig,directory,filename,varargin)
             assert(false,'Incorrect input arguments');
         end
     end
-    setplot(fig,[width height],{[],[],[],[],leg_width,[]});
+    setplot(fig,[width height],{[],[],[],[],leg_width,[]},fontsize);
     
     width
     height
@@ -60,7 +64,7 @@ function out = save_report(fig,directory,filename,varargin)
     print(fig,'-dpdf',dir_file)
     
     
-    setplot(fig,[width height]);
+    setplot(fig,[width height],{[],[],[],[],[],[]},fontsize);
     
     out = true;
 end

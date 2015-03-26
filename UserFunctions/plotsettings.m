@@ -11,9 +11,16 @@ ps.tuewarmred  = [247, 49, 49]/256;
 
 ps.tuegreen    = [0, 172, 130]/256;
 
-ps.green        = [0, 128, 0]/256;
+% ps.green        = [0, 128, 0]/256;
 ps.blue         = [0, 0, 256]/256;
-ps.red          = [256, 0, 0]/256;
+% ps.red          = [256, 0, 0]/256;
+ps.red = [0.85,0.16,0];
+ps.green = [0,0.5,0];
+ps.yellow = [0.75, 0.75, 0];
+ps.cyan = [0.0, 0.75, 0.75];
+ps.orange = [0.87, 0.49, 0];
 
 ps.list = {ps.tueblue,ps.tuecyan,ps.tuedarkblue,ps.tuegreen,ps.tuered,ps.tuewarmred};
 ps.list2 = {ps.tueblue,ps.tuegreen,ps.tuered,ps.tuecyan,ps.tuepink,ps.tuewarmred};
+
+ps.list3 = {ps.blue, ps.green, ps.red, ps.cyan, ps.orange, ps.yellow};
