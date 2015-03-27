@@ -1,13 +1,13 @@
 % create single frf
 clear all; 
-% close all; 
+close all; 
 clc;
 
 %% select PC
 % on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_air_pos/';
 % on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
+filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
 
 %% select file and wheel
 % filename = ['19-03-15_FRF_pos_wheel1'];
@@ -57,7 +57,7 @@ end
 %%
 cut_start = 4000;
 cut_end = 0;
-shift = 1;
+shift = 0;
 time = sample_i(cut_start:end-shift);
 u = trace{1}.signal{wheel}(cut_start:end-shift);
 c = trace{2}.signal{wheel}(cut_start:end-shift);
@@ -119,5 +119,5 @@ end
 % figure
 % frf(Hfrd,CP,C)
 
-
-% save(['frf_wheel',num2str(wheel),'_air.mat'],'H','hz');
+%% save data
+% save(['frf_wheel',num2str(wheel),'_air.mat'],'H','hz','S','PS','Scoh','PScoh');

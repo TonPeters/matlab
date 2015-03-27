@@ -1,16 +1,16 @@
 % create single frf
 clear all; 
-% close all; 
+close all; 
 clc;
 
 %% select PC
 % on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_floor_pos/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/base/frf_floor_pos/';
 % on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/base/frf_air_pos/';
+filedir = '/home/ton/ros/data/private/Ton_data/base/frf_floor_pos/';
 
 %% select file and wheel
-filename = ['26-03-15_FRF_wheel1_n10_v10_120s'];
+filename = ['26-03-15_FRF_wheel1_n10_v00_120s'];
 
 % for wheel = [1,2,3,4]
 wheel = 1;
@@ -125,4 +125,5 @@ linkaxes(get(gcf,'children'),'x')
 % frf(Hfrd,CP,C)
 
 
-% save(['frf_wheel',num2str(wheel),'_air.mat'],'H','hz');
+%% save data
+save(['frf_wheel',num2str(wheel),'_floor_v0.mat'],'H','hz','S','PS','Scoh','PScoh');
