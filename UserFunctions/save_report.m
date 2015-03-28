@@ -3,6 +3,16 @@ function out = save_report(fig,directory,filename,varargin)
 %       the given filename.
 % save_report(fig,directory,filename,type), define a figure type to auto
 %       adjust the scale to properly fit in a report
+%   - Types:
+%       - bode,             normal size
+%       - bodeleg,          legend outside
+%       - paperwidth,       paperwidth of page.
+%       - halfpaperwidth,   half
+%       - custom,           add param [w, h]
+%       - 
+%       - 
+%       - 
+
 
     % Compute correct directory
     if isempty(directory)
@@ -37,9 +47,9 @@ function out = save_report(fig,directory,filename,varargin)
             leg_width = lp(3)*1.2;
             width = width+leg_width;  
         elseif strcmp(plottype,'paperwidth')
-            width = 12;
+            width = 14;
         elseif strcmp(plottype,'halfpaperwidth')
-            width = 6*1.3;
+            width = 8.2;
             fontsize = 9;
         elseif strcmp(plottype,'custom') % add custom input size
             assert(nargin>4,'not enough input arguments, define size [width height]');

@@ -32,12 +32,12 @@ for i=1:1:3
     semilogx(hz,angle(H).*(360/2/pi),'color',ps.list3{i});grid on;
     ylabel('Phase degrees'); xlabel('Frequency [Hz]');hold all;
     subplot(4,1,3); 
-    semilogx(data{i}.hz,db(data{i}.S),'color',ps.list3{i}); grid on;
+    semilogx(data{i}.hz,db(data{i}.S),'-.','color',ps.list3{i}); grid on;
     ylabel('Sensitivity'); hold all;
     semilogx(data{i}.hz,db(data{i}.PS),'color',ps.list3{i});
     legend('S d-u','PS d-e');
     subplot(4,1,4); 
-    semilogx(data{i}.hz,(data{i}.Scoh),'--','color',ps.list3{i}); grid on; ylim([0 1]); hold all;
+    semilogx(data{i}.hz,(data{i}.Scoh),'-.','color',ps.list3{i}); grid on; ylim([0 1]); hold all;
     semilogx(data{i}.hz,(data{i}.PScoh),'color',ps.list3{i}); 
     ylabel('Coherene'); title('coherence'); 
     

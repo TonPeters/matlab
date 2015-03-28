@@ -126,4 +126,4 @@ linkaxes(get(gcf,'children'),'x')
 
 
 %% save data
-save(['frf_wheel',num2str(wheel),'_floor_v0.mat'],'H','hz','S','PS','Scoh','PScoh');
+% save(['frf_wheel',num2str(wheel),'_floor_v0.mat'],'H','hz','S','PS','Scoh','PScoh');
