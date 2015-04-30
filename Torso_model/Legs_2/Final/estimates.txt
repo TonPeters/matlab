@@ -1,0 +1,17 @@
+Estimates
+
+Estimate friction with masses m1 = 3.5; m2 = 5,
+            | per set   |
+-   Kls     | 0.207     |
+-   Kdir    | -0.00756  |
+-   Kcoul   | 0.0095    |
+
+Estimates masses with per set estimates of friction, P3 = 2.548,
+            | per set   |
+-   P1      | 6.704     |
+-   P2      | 5.672     |
+-   m1      | 3.34      |
+-   m2      | 6.53      |
+
+
+param = [6.704 5.672 0.207 -0.00756 0.0095];

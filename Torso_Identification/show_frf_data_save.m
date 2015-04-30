@@ -99,7 +99,8 @@ ei = err(:,joint);
 di = dd(:,joint);
 ui = uu(:,joint);
 
-shift = 1;
+shift = 0;
+if (part==2 && p1==1 && p2==2), shift = 1; end;
 cut_start = 2;
 cut_end = 2;
 e = ei(cut_start+shift:end-cut_end);

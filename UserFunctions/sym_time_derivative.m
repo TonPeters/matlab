@@ -5,7 +5,7 @@ function out = sym_time_derivative(A,x,dx)
 %       dx contains the symbolic time derivatives of x
 
     [n_row,n_col] = size(A);
-    n_x = length(x);
+%     n_x = length(x);
     
     dA = zeros(n_row,n_col);
     dA = sym(dA);

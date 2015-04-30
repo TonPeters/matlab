@@ -3,9 +3,9 @@ close all;
 clc;
 
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/frf_measurements/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/frf_measurements/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/frf_measurements/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/frf_measurements/';
 
 filename = ['12-02-15_FRF_tr_10kg'];
 joint = 2;

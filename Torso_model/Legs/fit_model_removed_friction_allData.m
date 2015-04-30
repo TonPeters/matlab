@@ -48,6 +48,9 @@ m3 = 7;
 % m3_lcm3 = 2.5;
 % m3_lcm3 = 2.1947;
 m3_lcm3 = 2.4724;
+% m3_lcm3 = 2.5;
+% m3_lcm3 = 2.4601;
+
 
 
 
@@ -69,6 +72,10 @@ q1 = angle0_to_angle1(q0);
 % r_q1_q0 = diff(angle0_to_angle1(q0));
 % r_q1_q0 = [r_q1_q0;r_q1_q0(end)]./q0;
 r_q1_q0 =  1.8546;
+
+%% parameters
+Kmm = 29.2e-3;             % Nm/A,     torque constant
+Kelm = 10;
 
 %% iterate over data sets filter and sample data
 joint = 1;
@@ -160,8 +167,8 @@ plot(q0_m_s./pi*180,mean(tau_fric_n_mean).*ones(1,n_s),'color',ps.list{1},'linew
 legend('grav','coulomb +','coulom -')
 mean(tau_fric_p_mean);
 mean(tau_fric_n_mean);
-V_coulomb = mean([tau_fric_p_mean;-tau_fric_n_mean])
-
+V_coulomb = mean([tau_fric_p_mean;-tau_fric_n_mean]);
+tau_coul = V_coulomb*Kelm*Kmm
 %% combine all data
 tau_grav_tot = zeros(n_s.*3,1);
 q0_m_tot = tau_grav_tot;
@@ -206,6 +213,9 @@ params = [params,param];
 %     param = [6.7130;    3.8945]; % mean with m3_lcm3 = 2.1947
 %     param = [6.1128;    5.0626]; % mean with m3_lcm3 = 2.6286
 %     param = [6.1128;    5.0626]; % mean with m3_lcm3 = 2.6286
+%     param = [6.2641;    4.6810]; % mean with m3_lcm3 = 2.5
+%     param = [6.3026;    4.6071]; % mean with m3_lcm3 = 2.4724
+%     param = [6.3197;    4.5742]; % mean with m3_lcm3 = 2.4601
 
 % Estimation paramters
 P1 = param(1);
@@ -220,7 +230,7 @@ for i=1:1:3
     
     q2 = q2_list(i)+2/180*pi;
     % gear ratio joint 1 depending on joint 2
-    r_q1_q0 = gear_q1_q0(q0);        % gear ratio joint 1 to joint 2
+    r_q1_q0 = ratio_dq1_q0(q0);        % gear ratio joint 1 to joint 2
 
     % Joint moments needed (refactored)
     M_leg = g.*(cos(q0).*P1+...             % P1 = lcm1*m1+l1*m2+l1*m3

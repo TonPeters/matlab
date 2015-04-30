@@ -210,7 +210,9 @@ params = [params,param];
 P1 = param(1);
 P2 = param(2);
 m3_lcm3 = param(3);
-
+% P1 = 6.0848;                    % P1 = lcm1*m1 + l1*m2 + l1*m3
+% P2 = 5.0254;                    % P2 = lcm2*m2 + l2*m3
+% m3_lcm3 = 2.4724;  
 
     %% Compute fit output
 % q2 = q2_tot;
@@ -220,7 +222,7 @@ for i=1:1:3
     
     q2 = q2_list(i)+2/180*pi;
     % gear ratio joint 1 depending on joint 2
-    r_q1_q0 = gear_q1_q0(q0);        % gear ratio joint 1 to joint 2
+    r_q1_q0 = ratio_dq1_q0(q0);        % gear ratio joint 1 to joint 2
 
     % Joint moments needed (refactored)
     M_leg = g.*(cos(q0).*P1+...             % P1 = lcm1*m1+l1*m2+l1*m3

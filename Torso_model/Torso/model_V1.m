@@ -100,9 +100,9 @@ dq1_q0 = ratio_dq1_q0(q0);                          % change of q1 dependant on 
 % Joint Torque legs
 T_leg = g.*(cos(q0).*(P1+l_1*m4)+...             
     (dq1_q0-1).*cos(q1-q0).*(P2+l_2*m4)+...     
-    (1-dq1_q0).*cos(q2-q1+q0).*(P3+l_3*m4));
+    (1-dq1_q0).*cos(q2-q1+q0+q2_gravity_offset).*(P3+l_3*m4));
 
-% Joint Torque arms
+% Joint Torque trunk arms
 T_trunk = (g.*(P3+m4*l_3).*cos(q2-q1+q0+q2_gravity_offset));
 
 % Spindle forces needed
@@ -147,8 +147,8 @@ hold all;
 subplot(2,2,4)
 plot(squeeze(q2(:,:,1))./pi*180,squeeze(I_2(:,:,2))); ax4 = gca;
 xlabel('angle joint 2 [deg]');
-linkaxes([ax1 ax3],'xy')
-linkaxes([ax2 ax4],'xy')
+% linkaxes([ax1 ax3],'xy')
+% linkaxes([ax2 ax4],'xy')
 
 % define colormap
 cmax1 = max(max(max(max(abs(I_1)))));
@@ -159,7 +159,7 @@ cm_length = 60;
 CV_1 = fix((abs(I_1)-cmin1)./(cmax1-cmin1).*cm_length)+1;
 CV_2 = fix((abs(I_2)-cmin2)./(cmax2-cmin2).*cm_length)+1;
 
-figure; scr rt;
+figure; scr lt;
 ax_1(1) = subplot(2,1,1);
 surf(squeeze(q0(:,:,1))./pi*180,squeeze(q2(:,:,1))./pi*180,squeeze(I_1(:,:,1)),squeeze(CV_1(:,:,1)),...
     'CDataMapping','direct');
@@ -180,7 +180,7 @@ set(col_leg,'YTickLabel',Xlabel)
 
 
 
-figure; scr lt;
+figure; scr rt;
 ax_2(1) = subplot(2,1,1);
 surf(squeeze(q0(:,:,1))./pi*180,squeeze(q2(:,:,1))./pi*180,squeeze(I_2(:,:,1)),squeeze(CV_2(:,:,1)),...
     'CDataMapping','direct');

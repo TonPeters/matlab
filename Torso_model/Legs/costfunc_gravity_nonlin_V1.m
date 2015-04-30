@@ -12,7 +12,10 @@ function cost = costfunc_gravity_nonlin_V1(param,q,V_meas,q2)
     
     % Parameters   
     g = 9.81;                   % gravity constant
-    m3_lcm3 = 2.6286;          % m3*lcm3
+    m3_lcm3 = 2.4724;          % m3*lcm3
+%     m3_lcm3 = 2.6286;
+%     m3_lcm3 = 2.4601;          % m3*lcm3
+%     m3_lcm3 = 2.5;          % m3*lcm3
     
 %     % Joint moments needed
 %     M_0 = lcm1.*cos(q0).*m1*g+(l1.*cos(q0)-lcm2.*cos(q1-q0)).*m2*g+...
@@ -25,9 +28,9 @@ function cost = costfunc_gravity_nonlin_V1(param,q,V_meas,q2)
     % Joint moments needed (refactored)
     r_q1_q0 = ratio_dq1_q0(q0);        % gear ratio joint 1 to joint 2
 %     r_q1_q0 =  1.8546;                      % gear ratio joint 1 to joint 2
-    M1 = cos(q0).*P1;
-    M2 = (r_q1_q0-1).*cos(q1-q0).*P2;
-    M3 = (1-r_q1_q0).*cos(q2-q1+q0).*m3_lcm3;
+%     M1 = cos(q0).*P1;
+%     M2 = (r_q1_q0-1).*cos(q1-q0).*P2;
+%     M3 = (1-r_q1_q0).*cos(q2-q1+q0).*m3_lcm3;
     M_leg = g.*(cos(q0).*P1+...             % P1 = lcm1*m1+l1*m2+l1*m3
         (r_q1_q0-1).*cos(q1-q0).*P2+...     % P2 = lcm2*m2+l2*m3
         (1-r_q1_q0).*cos(q2-q1+q0).*m3_lcm3);

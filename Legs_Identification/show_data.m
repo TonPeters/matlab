@@ -10,9 +10,9 @@ end
 % clc;
 % fig1 = figure;scr r;
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_leg/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_leg/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_leg/';
 
 
 filename = 'm0kg_vel004_trunk20_st282';

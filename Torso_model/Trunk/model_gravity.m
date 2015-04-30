@@ -72,11 +72,11 @@ for m2 = [0 10 20]
     % Spindle torque needed
     l_ls = 0.002;
     rsp = 2*pi/l_ls;
-    T_sp = F_appl/rsp;
+    T_sp = F_appl./rsp;
 
     % Motor torque needed
     rgear = 13/3;
-    T_m = T_sp/rgear;
+    T_m = T_sp./rgear;
 
     % Motor current needed
     Kmm = 29.2e-3;             % Nm/A,     torque constant
@@ -102,7 +102,7 @@ for m2 = [0 10 20]
 end
 % close(fF,fT,fI);
 %% measurements
-% load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 figure;
 plot(th_0k,u_0k,'b:','linewidth',ps.linewidthSmall); hold all;
 q10 = th_10k./180*pi+th_r; qF10 = spindle2_to_Fangle2(angle2_to_spindle2(q10));

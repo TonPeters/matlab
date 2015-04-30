@@ -1,0 +1,12 @@
+
+Friction fit with mass 10kg
+            | fit per measurement:  | fit allData   | fit per min3  | allData min3  | Used   |
+-   Kcoul   |       0.0290          |    0.0289     |   0.0288      |   0.0289      | 0.0290 |
+-   Kdir    |       0.00970         |    0.00912    |   0.00967     |   0.00913     | 0.0097 |
+
+Mass with fiction Kcoul = 0.0290, Kdir = 0.0097
+
+-   P       |       2.548           |   2.583       |   2.463       |   2.583       | 2.548  |  
+-   m3      |       10.84           |   10.99       |   10.48       |   10.99       | 10.84  |
+
+param = [2.548 0.0290 0.0097];

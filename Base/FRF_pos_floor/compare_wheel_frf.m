@@ -1,5 +1,5 @@
 clear all; 
-% close all; 
+close all; 
 clc;
 %%%% compare different measured frfs for wheel 1
 % 1 in the air with ref vel
@@ -23,6 +23,9 @@ for i=1:1:3
 %     end
     hz = hz(indices);
     H = H(indices);
+    if i==1, Hfrd = frd(H,hz,'units','Hz'); Hfrdv = Hfrd*tf('s'); Ha = squeeze(Hfrdv.resp(1,1,:)); hza = hz; end;
+    if i==2, Hfrd = frd(H,hz,'units','Hz'); Hfrdv = Hfrd*tf('s'); Hfv = squeeze(Hfrdv.resp(1,1,:)); hzfv = hz; end;
+    if i==3, Hfrd = frd(H,hz,'units','Hz'); Hfrdv = Hfrd*tf('s'); Hf = squeeze(Hfrdv.resp(1,1,:)); hzf = hz; end;
 
     figure(fig1)
     subplot(4,1,1); 

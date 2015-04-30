@@ -10,23 +10,24 @@ filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/frf_measurem
 % part = 2;
 % p1 = 3; 
 % p2 =3;
-figure
+f{1} = figure;
+h1 = figure; scr rb;
 part2_first = true;
 for part = [1 2]
     if part==2&& part2_first
-        figure; part2_first = false;
+        f{2} = figure; scr rt; part2_first = false;
     end
     for p1 = [1 2 3]
         for p2 = [1 2 3]
             if (part==1 && p1==1 && p2 >1)
                 continue
             end
-
+            
 parts = {'leg','tr'};
 pos = {'do','ce','up'};
 filename = ['06-02-15_FRF_',parts{part},'_',pos{p1},'_',pos{p2}];
 joint = part;
-naverage = 30;
+naverage = 50;
 fs = 1000;
 EQ_LEG = [0.2261, 0.26,   0.26;   0.1761, 0.1905, 0.2109; 0.1206, 0.1352, 0.1667];
 EQ_TRU = [0.0874, 0.0529, 0.0170; 0.0997, 0.0723, 0.0417; 0.1085, 0.0889, 0.0683];
@@ -99,7 +100,8 @@ ei = err(:,joint);
 di = dd(:,joint);
 ui = uu(:,joint);
 
-shift = 1;
+shift = 0;
+if (part==2 && p1==1 && p2==2), shift = 1; end;
 cut_start = 2;
 cut_end = 2;
 e = ei(cut_start+shift:end-cut_end);
@@ -113,9 +115,9 @@ window=hann(nfft);
 noverlap=round(nfft*0.5);
 
 [TrS,hz]=tfestimate(d,u,window,noverlap,nfft,fs);
-[Coh_du,hz]=mscohere(d,u,window,noverlap,nfft,fs);
+[Coh_S,hz]=mscohere(d,u,window,noverlap,nfft,fs);
 [TrPS,hz]=tfestimate(d,e,window,noverlap,nfft,fs);
-[Coh_de,hz]=mscohere(d,e,window,noverlap,nfft,fs);
+[Coh_PS,hz]=mscohere(d,e,window,noverlap,nfft,fs);
 
 H = -TrPS./(TrS);
 Hfrd = frd(H,hz,'frequencyunit','Hz');
@@ -128,24 +130,26 @@ Hfrd = frd(H,hz,'frequencyunit','Hz');
 
 % plot data
 % figure
-figure(gcf);
+figure(f{part});
 subplot(2,1,1);
 semilogx(hz,db(H)); hold all;
 subplot(2,1,2);
 semilogx(hz,angle(H).*360/2/pi); hold all;
-% figure(h1)
-% semilogx(hz,abs(Coh_du));
-% hold all;
-% figure(h2)
-% semilogx(hz,abs(Coh_de));
-% hold all;
+
+figure(h1)
+subplot(2,1,1)
+semilogx(hz,Coh_S); ylabel('coh sens');
+hold all;
+subplot(2,1,2)
+semilogx(hz,Coh_PS); ylabel('coh proc sens');
+hold all;
 
 % figure settings
 % figure(gcf); grid on; title('Coherence d to u'); xlabel('frequency [hz]');
 % ylabel('magnitude abs'); 
 % figure(h2); grid on; title('Coherence d to e'); xlabel('frequency [hz]');
 % ylabel('magnitude abs');      
-figure(gcf);
+figure(f{part});
 subplot(2,1,1); grid on; ylabel('Magnitude db');
 subplot(2,1,2); grid on; ylabel('angle degrees'); xlabel('frequency Hz');
 %% save frf

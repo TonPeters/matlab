@@ -12,7 +12,7 @@ function [q,qd,qdd,time] = reference_generator(xstart,xend,Ts,vel,acc,jerk)
     % set direction
     if (xstart>xend), jerk_used = -jerk_used; end
     
-    a = zeros(4,7);                             % integral constants for each part of the trajectory
+    a = zeros(4,8);                             % integral constants for each part of the trajectory
     t_steps = [0;tj;tj+ta;2*tj+ta;0;0;0;0];     % time steps of the trajectory
     jerk_steps = [jerk_used;0;-jerk_used;0;-jerk_used;0;jerk_used]; % jerks for the trajectory
     xd_steps = zeros(3,1);                      % distance traveled in the first 3 parts of the trajectory
@@ -33,7 +33,7 @@ function [q,qd,qdd,time] = reference_generator(xstart,xend,Ts,vel,acc,jerk)
     if xd_startup < xd % maximum acceleration and maximum velocity are reachable
         
         tv = (xd-xd_startup)/vel;   % constant velocity time
-        t_total = 4*tj+2*ta+tv;     % total time
+        t_total = 4*tj+2*ta+tv+Ts;     % total time
         
         % create output arrays
         time = (0:Ts:t_total).';
@@ -54,10 +54,17 @@ function [q,qd,qdd,time] = reference_generator(xstart,xend,Ts,vel,acc,jerk)
         end
         
         % generate the output data
-        for i=1:1:7
-            indices = find(time>t_steps(i) & time<=t_steps(i+1));
+        for i=1:1:8
+            if i==8
+                indices = find(time>t_steps(i));
+                ind = find(time>t_steps(i),1,'first');
+                a(1,i) = q(ind-1);
+            else
+                indices = find(time>t_steps(i) & time<=t_steps(i+1));
+            end
             [q(indices),qd(indices),qdd(indices)] = ref_evaluate(a(:,i),time(indices));
         end
+        
         
     else
         % reduce velocity or acceleration

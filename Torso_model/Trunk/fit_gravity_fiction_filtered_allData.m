@@ -58,9 +58,9 @@ fig11 = figure; scr rt;
 
 params = [];
 for i=1:1:5
-%     if i==3
-%         continue;
-%     end
+    if i==3
+        continue;
+    end
     leg_list2{leg_count} = leg_list{i}; leg_count= leg_count+1;
     
     % 0kg 0.56rad
@@ -186,6 +186,7 @@ for i=1:1:5
     n_tot = n_tot+length(q_m_s{i});
 end
 
+% average coulomb friction
 tau_fric_p_mean =  mean([tau_fric_p{1};tau_fric_p{2};tau_fric_p{3};tau_fric_p{4};tau_fric_p{5}])
 tau_fric_n_mean =  mean([tau_fric_n{1};tau_fric_n{2};tau_fric_n{3};tau_fric_n{4};tau_fric_n{5}])
 figure(fig11);
@@ -201,6 +202,9 @@ m2_tot = q_tot;
 data_offset_tot = q_tot;
 i_start = 1;
 for i=1:1:5
+    if i==3
+        continue;
+    end
     ni = length(q_m_s{i});
     i_end = i_start+ni-1;
     q_tot(i_start:i_end) = q_m_s{i};
@@ -240,6 +244,9 @@ end
 m1_lcm1 = param(1);
 
 for i=1:1:5
+    if i==3
+        continue;
+    end
     params = [params,param];
     %% compare fit to measurement
     % Parameters
@@ -315,6 +322,8 @@ end
 % linkaxes(get(fig2,'children'),'x');
 params
 
+tau_dir = tau_grav_shift.*Kelm*Kmm
+tau_coul = tau_fric_n_mean.*Kelm*Kmm
 
 % end
 all_grids_on();

@@ -3,17 +3,19 @@ close all;
 clc;
 
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_trunk/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_trunk/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_trunk/';
 fig1 = figure;
-% fil = {'18','20','22','24','26'}; %'04','06','08','10','12','14','16',
-fil = {'06','24'};
+fil = {'04','06','08','10','12','14','16','18','22','24','26'}; %'04','06','08','10','12','14','16',
+mass = 'm10kg_';
+mass = '';
+% fil = {'06','24'};
 for k=1:1:length(fil)
-filename = ['m10kg_vel0',fil{k}];
+filename = [mass,'vel0',fil{k}];
 
 data = importdata([filedir,filename,'.dat']);
-vectorsizes = [2,2,2,2];
+vectorsizes = [2,2,2];
 
 GEARRATIO 			= 9.0/169.0;		
 BITS2CURRENT 		= 25.0/2046.0; 		
@@ -53,8 +55,8 @@ enc1 = trace{3}.signal{1};
 enc2 = trace{3}.signal{2};
 err1 = ref1-enc1;
 err2 = ref2-enc2;
-ffw1 = trace{4}.signal{1};
-ffw2 = trace{4}.signal{2};
+% ffw1 = trace{4}.signal{1};
+% ffw2 = trace{4}.signal{2};
 
 % tr1 = trace{4}.signal{1};
 % tr2 = trace{4}.signal{2};
@@ -66,7 +68,7 @@ subplot(n_plots,1,i_p); i_p = i_p+1;
 plot(time,ref1,time,ref2); ylabel('ref [m]'); grid on; hold all;
 plot(time,enc1,time,enc2); legend('ref1','ref2','enc1','enc2');
 subplot(n_plots,1,i_p);i_p = i_p+1;
-plot(time,u2,time,ffw2); ylabel('control [V]'); grid on; 
+plot(time,u2); ylabel('control [V]'); grid on; 
 % subplot(n_plots,1,i_p);i_p = i_p+1;
 % plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
 subplot(n_plots,1,i_p);i_p = i_p+1;

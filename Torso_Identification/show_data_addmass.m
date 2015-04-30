@@ -3,16 +3,18 @@ close all;
 clc;
 
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/add_mass/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/add_mass/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/add_mass/';
 
 figkg = figure;
 M = {'0','10'};
+M = {'0','10','20'};
 
-for i = [1, 2]
+for i = [1, 2,3]
     
     filename = ['m',M{i},'kg_vel004_leg02'];
+    filename = ['upper_',M{i},'_mass01'];
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2];
@@ -40,7 +42,9 @@ for i=2:1:sum(vectorsizes)+1
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
         for m=indices
-            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+            if m~=1 & m~=length(sample_i)
+                trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+            end
         end
     end
     
@@ -75,7 +79,7 @@ plot(time,u2); ylabel('control [V]'); grid on;  hold all;
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,err2); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
-
+pause
 %% plot results
 n_plots = 3; i_p = 1;
 figure; 
@@ -146,6 +150,6 @@ ref = [ref1, ref2];
 enc = [enc1, enc2];
 u = [u1, u2];
 
-save(['add_mass/',filename,'.mat'],'ref','enc','u','time')
+% save(['add_mass/',filename,'.mat'],'ref','enc','u','time')
 end
 all_grids_on();

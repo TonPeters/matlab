@@ -115,8 +115,8 @@ for m2 = [0 10 20]
 end
 % close(fF,fT,fI);
 %% measurements
-% load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
-load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+load '/home/ton/git_ton/matlab/Torso_Identification/add_mass/upper_3mass.mat'
+% load '/home/amigo/matlab/Torso_Identification/add_mass/upper_3mass.mat'
 figure; scr rt;
 plot(th_0k,u_0k,'b:','linewidth',ps.linewidthSmall); hold all;
 q10 = th_10k./180*pi+th_r; qF10 = spindle2_to_Fangle2(angle2_to_spindle2(q10));

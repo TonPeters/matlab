@@ -69,7 +69,7 @@ q1 = angle0_to_angle1(q0);
 % Gear ratio joint 1 depending on joint 0
 % r_q1_q0 = diff(angle0_to_angle1(q0));
 % r_q1_q0 = [r_q1_q0;r_q1_q0(end)]./q0;
-r_q1_q0 =  1.8546;
+% r_q1_q0 =  1.8546;
 
 %% iterate over data sets filter and sample data
 joint = 1;
@@ -171,7 +171,7 @@ fig11 = figure; scr lt;
 for i=1:1:3
     q2 = q2_list(i);
 
-    param0 =    [lcm1*m1+l1*m2+l1*m3;    lcm2*m2+l2*m3];
+    param0 =    [6.0848;    5.0254];
     lb =        [0; 0];
     ub =        [100; 100];
 

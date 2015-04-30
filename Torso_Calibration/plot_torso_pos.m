@@ -1,4 +1,4 @@
-function plot_torso_pos(q0,q2)
+function plot_torso_pos(q0,q2,varargin)
 
     run torso_measures_NX
     l1 = di(A,G);
@@ -33,6 +33,28 @@ function plot_torso_pos(q0,q2)
     plot(x(:,1),x(:,2),'*--'); hold all;
     plot(cm(:,1),cm(:,2),'r*');
     plot(F(:,1),F(:,2),'g*');
+    
+    if nargin>2
+        if varargin{1}
+            % resize axes
+            ax = gca;
+            yl= get(ax,'ylim');
+            xl = get(ax,'xlim');
+            set(ax,'units','centimeters');
+            pos = get(ax,'position');
+            pos(3) = pos(1)+diff(xl)*10;
+            pos(4) = pos(2)+diff(yl)*10;
+            set(ax,'position',pos)
+
+            % resize figure
+            h = gcf;
+            set(h,'units','centimeters');
+            fpos = get(h,'position');
+            fpos(3) = pos(1)+pos(3)+1;
+            fpos(4) = pos(2)+pos(4)+1;
+            set(h,'position',fpos);
+        end
+    end
     
 end
 

@@ -147,3 +147,7 @@ init_spindle2 = di(I,K);
 % ankle 0.05 to 1.001 rad
 % knee  0.18 to 2.06  rad
 % hip   1.01 to 2.31  rad
+
+% spindle endstops:
+% legs  0.239 to 0.399 m, 0.0167 to 1.0362 rad
+% trunk 0.358 to 0.459 m, 0.9755 to 2.3642 rad
