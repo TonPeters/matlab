@@ -1,0 +1,13 @@
+Legs settings
+
+* No changes
+    - F_leg = 500; 
+* Center line reachable
+    - F_leg = 500; 
+    - F_lim = 1200;
+* Bend reachable
+    - F_leg = 300;  or N=1 and F_leg = 600
+    - F_lim = 1700;
+* Complete reachable
+    - F_leg = 625; 
+    - F_lim = 2500;

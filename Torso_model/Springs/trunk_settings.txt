@@ -1,0 +1,10 @@
+Legs settings
+
+* No drive train changes
+    - F_trunk = 600
+* Center to bend reachable
+    - F_trunk = 675
+    - F_lim = 1550
+* Complete reachable
+    - F_trunk = 325
+    - F_lim = 2400
