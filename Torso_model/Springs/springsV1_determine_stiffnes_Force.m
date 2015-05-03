@@ -12,7 +12,7 @@ run torso_measures_NX
 lAG = di(A,G);
 lAE = di(A,E);
 lAC = di(A,C);
-lAF = di(A,C);
+lAF = di(A,F);
 lGJ = di(G,J);
 lJK = di(J,K);
 lJH = di(J,H);
@@ -57,7 +57,7 @@ F1_leg = 500;
 N_trunk = 2;
 F1_trunk = 800;             % force max length
 
-new_inertia = false;
+new_inertia = true;
 inertia_name = 'inertia_grid6';
 
 %% springs
@@ -207,7 +207,11 @@ tau_fric_trunk = sign(dq).*Kc_2+Kd_2;
 tau_leg = (tau_fric_leg+tau_G_leg+D_arms_leg+D_leg).*(r_sp*r_gear1);
 tau_trunk = (tau_fric_trunk+tau_G_trunk+D_arms_trunk+D_trunk).*(r_sp*r_gear2);
 
-
+%% test function torso_torque()
+% clc;
+% [F_leg,F_trunk] = torso_torque(q0,q2,dq,qdd,m_4,M_arms,N_leg,F1_leg,N_trunk,F1_trunk);
+% F_trunk = trunk_torque(q0,q2,dq,qdd,m_4,M_arms,N_trunk,F1_trunk);
+% tau_leg-F_leg
 %% show results 2D
 % motor limits
 tau_lim_leg = [tau_nom_max,-tau_nom_max;tau_nom_max,-tau_nom_max].*(r_sp*r_gear1);

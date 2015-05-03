@@ -12,7 +12,7 @@ run torso_measures_NX
 lAG = di(A,G);
 lAE = di(A,E);
 lAC = di(A,C);
-lAF = di(A,C);
+lAF = di(A,F);
 lGJ = di(G,J);
 lJK = di(J,K);
 lJH = di(J,H);
@@ -52,7 +52,7 @@ plotsettings
 m_4 = 20;       % kg, mass of the arms
 M_arms = 0;    % Nm, load of the arms
 N_leg = 2;
-F1_leg = 400;
+F1_leg = 500;
 N_trunk = 2;
 F1_trunk = 800;             % force max length
 
@@ -61,13 +61,13 @@ fig1 = figure;
 for M_arms = [0 52]
 iter = iter+1;
 % run zero shoulders
-new_inertia = false;
+new_inertia = true;
 % run springsV1_determine_stiffnes_trunk_yzero_2.m
 run springsV1_determine_stiffnes_legs_yzero_2.m
 
 n = 10;     % grid size
 n_2 = 2;
-new_inertia = false;
+new_inertia = true;
 inertia_name = 'legs_tune_inertia_grid2';
 %% springs
 B_leg  = 404e-3+2*30e-3;

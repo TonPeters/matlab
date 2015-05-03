@@ -12,7 +12,7 @@ run torso_measures_NX
 lAG = di(A,G);
 lAE = di(A,E);
 lAC = di(A,C);
-lAF = di(A,C);
+lAF = di(A,F);
 lGJ = di(G,J);
 lJK = di(J,K);
 lJH = di(J,H);

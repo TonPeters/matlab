@@ -1,5 +1,7 @@
-function plot_torso_pos2(q0,q2,varargin)
+function out = plot_torso_pos2(q0,q2,varargin)
 
+
+    plotsettings
     run torso_measures_NX
     l1 = di(A,G);
     l2 = di(G,J);       % length from knee to hip
@@ -16,26 +18,17 @@ function plot_torso_pos2(q0,q2,varargin)
     x_q1 = [l1*cos(q0), l1*sin(q0)];
     x_q2 = x_q1+l2.*[-cos(q1-q0), sin(q1-q0)];
     x_q3 = x_q2+l3.*[cos(q2-q1+q0), sin(q2-q1+q0)];
-    x = [x_q0;x_q1;x_q2;x_q3];
-
-%     % positions of the centers of mass
-%     cm_q1 = 1/2*l1.*[cos(q0), sin(q0)];
-%     cm_q2 = x_q1+lcm2.*[-cos(q1-q0), sin(q1-q0)];
-%     cm_q3 = x_q2+lcm3.*[cos(q2-q1+q0), sin(q2-q1+q0)];
-%     cm_q4 = x_q2+l3.*[cos(q2-q1+q0), sin(q2-q1+q0)];
-%     cm = [cm_q1;cm_q2;cm_q3;cm_q4];
-% 
-%     % positions of the actuators
-%     F_t1 = lFsp1.*[cos(q0), sin(q0)];
-%     F_t2 = x_q2+lFsp2.*[cos(q2-q1+q0), sin(q2-q1+q0)];
-%     F = [F_t1;F_t2];
-
-    plot(x(:,1),x(:,2),'*--'); hold all;
-%     plot(cm(:,1),cm(:,2),'r*');
-%     plot(F(:,1),F(:,2),'g*');
+    x = [x_q0;x_q1;x_q2;x_q3]-[ones(4,1).*A(2), zeros(4,1)];
+    
     
     if nargin>2
-        if varargin{1}
+        out = plot(x(:,1),x(:,2),'-o','color',varargin{1}); hold all;
+    else
+        out = plot(x(:,1),x(:,2),'-o'); hold all;
+    end
+    
+    if nargin>3
+        if varargin{2}
             % resize axes
             ax = gca;
             yl= get(ax,'ylim');

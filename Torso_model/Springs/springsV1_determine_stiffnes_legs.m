@@ -12,6 +12,7 @@ run torso_measures_NX
 lAG = di(A,G);
 lAE = di(A,E);
 lAC = di(A,C);
+lAF = di(A,F);
 lGJ = di(G,J);
 lJK = di(J,K);
 lJH = di(J,H);
@@ -27,6 +28,8 @@ th_0_min = spindle1_to_angle0(min_spindle1);    % min angle q0
 th_0_max = spindle1_to_angle0(max_spindle1);    % max angle q0
 l_F2 = lJK;                                      % arm of applied spindle force on joint 2
 l_F1 = lAE;                                      % arm of applied spindle force on joint 1
+l_Fgs2 = lJK;                                      % arm of applied spring force on joint 2
+l_Fgs1 = lAF;                                      % arm of applied spring force on joint 1
 l_1 = lAG;
 l_2 = lGJ;
 l_3 = lJL;
@@ -42,7 +45,7 @@ m_3 = 7;
 
 
 % clear parameters
-clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g K_leg K_trunk L0_leg L0_trunk FR_leg FR_trunk
+clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g K_leg K_trunk L0_leg L0_trunk FR_leg FR_trunk l_Fgs1 l_Fgs2
 plotsettings
 
 %% Settings
@@ -50,11 +53,11 @@ n = 6;     % grid size
 m_4 = 20;       % kg, mass of the arms
 M_arms = 26;    % Nm, load of the arms
 N_leg = 2;
-F1_leg = 325;
+F1_leg = 500;
 
 N_trunk = 2;
 
-new_inertia = false;
+new_inertia = true;
 inertia_name = 'legs_inertia';
 
 % fig1 = figure;
@@ -150,9 +153,9 @@ G_trunk = g_trunk+gs_trunk+g_arms_trunk;
 
 % negative velocity extra spindle force
 thFgs1 = spring1_to_Fangle1(lspr1);
-F_gs1 = -N_leg.*FR_leg*sin(thFgs1);
+F_gs1 = -N_leg.*FR_leg*sin(thFgs1).*l_Fgs1;
 thFgs2 = spring2_to_Fangle2(lspr2);
-F_gs2 = -N_trunk.*FR_trunk*sin(thFgs2);
+F_gs2 = -N_trunk.*FR_trunk*sin(thFgs2).*l_Fgs2;
 
 G_leg(:,:,2) = G_leg(:,:,2)+F_gs1(:,:,2);
 G_trunk(:,:,2) = G_trunk(:,:,2)+F_gs2(:,:,2);
