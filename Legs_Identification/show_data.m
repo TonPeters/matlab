@@ -15,7 +15,7 @@ end
 filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_leg/';
 
 
-filename = 'm0kg_vel004_trunk20_st282';
+filename = 'm0kg_vel004_trunk14';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
@@ -69,20 +69,20 @@ ffw2 = trace{4}.signal{2};
 
 
 %% plot results
-% n_plots = 3; i_p = 1;
-% figure; 
-% subplot(n_plots,1,i_p); i_p = i_p+1;
-% plot(time,ref1); ylabel('ref [m]'); grid on; hold all;
-% plot(time,enc1); legend('ref2','enc2');
-% % plot(time,ffw2); hold all;
+n_plots = 3; i_p = 1;
+figure; 
+subplot(n_plots,1,i_p); i_p = i_p+1;
+plot(time,ref1); ylabel('ref [m]'); grid on; hold all;
+plot(time,enc1); legend('ref2','enc2');
+% plot(time,ffw2); hold all;
+subplot(n_plots,1,i_p);i_p = i_p+1;
+plot(time,u1); ylabel('control [V]'); grid on;  hold all;
+% plot(time,ffw2);
 % subplot(n_plots,1,i_p);i_p = i_p+1;
-% plot(time,u1); ylabel('control [V]'); grid on;  hold all;
-% % plot(time,ffw2);
-% % subplot(n_plots,1,i_p);i_p = i_p+1;
-% % plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
-% subplot(n_plots,1,i_p);i_p = i_p+1;
-% plot(time,err1); ylabel('err [m]'); grid on;
-% linkaxes(get(gcf,'children'),'x');
+% plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
+subplot(n_plots,1,i_p);i_p = i_p+1;
+plot(time,err1); ylabel('err [m]'); grid on;
+linkaxes(get(gcf,'children'),'x');
 
 %% plot results
 % n_plots = 3; i_p = 1;

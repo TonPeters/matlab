@@ -13,7 +13,7 @@ M = {'0','10','20'};
 
 for i = [1, 2,3]
     
-    filename = ['m',M{i},'kg_vel004_leg02'];
+%     filename = ['m',M{i},'kg_vel004_leg02'];
     filename = ['upper_',M{i},'_mass01'];
 
 data = importdata([filedir,filename,'.dat']);

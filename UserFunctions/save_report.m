@@ -95,6 +95,7 @@ function out = save_report(fig,directory,filename,varargin)
             lp = get(lh,'position');
             leg_width = lp(3)*1.2;
             width = width+leg_width;  
+            height = height*1.01;
         else
             % plot normal
             assert(false,'Incorrect input arguments');

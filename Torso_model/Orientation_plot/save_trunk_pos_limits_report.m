@@ -78,6 +78,13 @@ end
 %% show max bend in upper position
 fig1 = figure;
 
+% get zero bound
+bounds_x_zero = [0 0];
+bounds_y_zero = [0 0];
+[bounds_x_zero(1), bounds_y_zero(1)] = plot_torso_end(th_0_min,shoulders_zero(th_0_min),[1 1 1]);
+[bounds_x_zero(2), bounds_y_zero(2)] = plot_torso_end(th_0_max,shoulders_zero(th_0_max),[1 1 1]);
+% plot zero bounds
+pl_z = plot(bounds_x_zero,bounds_y_zero,'color',ps.list_div_XL{4,5});
 
 x = zeros(n,n);
 y=x;

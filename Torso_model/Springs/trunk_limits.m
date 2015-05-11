@@ -48,14 +48,14 @@ m_3 = 7;
 clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g K_leg K_trunk L0_leg L0_trunk FR_leg FR_trunk l_Fgs2 l_Fgs1
 plotsettings
 
-th_0_min = 0.05;        % absolute minimum of th_0
+th_0_min = 0.15;        % absolute minimum of th_0
 
 % motor parameters
 K_m     = 29.2e-3;      % Nm/A,         Motor torque constant
 K_elm   = 10;           % A/V_input,    Gain from input Voltage to Current     
 r_gear1 = 5/2;          % rad/rad,      Gear ratio from spindle to motor 1
 r_gear2 = 13/3;         % rad/rad,      Gear ratio from spindle to motor 2
-l_ls    = 0.002;        % m,           Lead of the spindle
+l_ls    = 0.002;        % m,            Lead of the spindle
 r_sp     = 2*pi/l_ls;   % rad/mm,       Gear ratio from spindle translation to rotation
 I_m     = 79.2e-7;      % kg.m2,        Motor rotor inertia
 l_s = 0.25;             % m,            Estimate ?????? lenght of the rotating screw
@@ -68,8 +68,8 @@ n_2 = 10;              % grid size
 m_4 = 20;           % kg, mass of the arms
 % M_4 = 52;           % Nm, load of the arms
 N_trunk = 2;          % number of springs in the leg
-F1_trunk = 325;       % load of springs in the leg
-Motor_limit = 2400;
+F1_trunk = 375;       % load of springs in the leg
+Motor_limit = 2300;
 
 q0 = [th_0_max, th_0_min];  % 
 qd = [1,        -1];  % only sign of velocity is used

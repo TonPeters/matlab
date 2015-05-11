@@ -20,10 +20,10 @@ q2 = linspace(th_2_min,th_2_max,n);
 
 % sim settings
 N_trunk = 2;
-F1_trunk = 600;
+F1_trunk = 525;
 m_4 = 20;
 qdd = 0.41;
-F_lim = 1375;
+F_lim = 1904;
 
 % simulate
 F_trunk_max = zeros(size(q0_));

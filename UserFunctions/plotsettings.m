@@ -1,5 +1,5 @@
 global ps
-ps.linewidth = 3;
+ps.linewidth = 1;
 ps.linewidthSmall = 0.5;
 
 ps.tueblue     = [0, 102, 204]/256;

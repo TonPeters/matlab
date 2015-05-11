@@ -12,6 +12,7 @@ th_0_max = spindle1_to_angle0(max_spindle1);    % max angle q0
 
 th_0_min = 0.05;    % min angle q0
 
+ankle_z_height = 0.2465;
 %% show max bend in upper position
 fig1 = figure;
 
@@ -41,7 +42,15 @@ plot(bounds_x(:,3),bounds_y(:,3),'--','color',ps.list_div_L{3,4});
 plot(bounds_x(:,4),bounds_y(:,4),'--','color',ps.list_div_L{3,4});
 
 % plot zero bounds
-pl(5) = plot(bounds_x_zero,bounds_y_zero,'--','color',ps.list_div_XL{4,7});
+% pl(5) = plot(bounds_x_zero,bounds_y_zero,'--','color',ps.list_div_XL{4,7});
+
+% plot AMIGO bounds
+amigo_range = 0.32;
+amigo_min = 0.725+0.15;
+amigo_max = amigo_min+amigo_range;
+amigo_x = [0 0];
+amigo_y = [amigo_min amigo_max]-ankle_z_height;
+pl(5) = plot(amigo_x,amigo_y,'-+','color',ps.list_div_XL{4,7});
 
 n=2;
 q2 = linspace(th_2_min,th_2_max,n);
@@ -72,7 +81,7 @@ ylim(yl);
 % set(ax(2),'yticklabel',[]);
 all_grids_on();
 
-leg = legend(pl,{'Torso down','Torso up','Base size','Bounds reachable space','Bound shoulders zero'},'location','northeastoutside');
+leg = legend(pl,{'Torso down','Torso up','Base size','Bounds reachable space','AMIGOs reachable space'},'location','northeastoutside');
 set(leg,'units','centimeters','interpreter','latex');
 leg_pos = get(leg,'position');
 leg_width = leg_pos(3);
@@ -100,6 +109,6 @@ if save_fig
     set(fig1,'PaperPositionMode','manual');
     set(fig1,'PaperPosition',[0 0 figsize]);
 
-    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/orientation_limits';
+    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/amigo_limits';
     print(fig1,'-dpdf',dir_file)
 end
