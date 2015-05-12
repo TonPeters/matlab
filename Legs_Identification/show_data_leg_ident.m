@@ -1,21 +1,15 @@
-if (exist('fig1'))
-    clearvars -except fig1 
-else
-    clear all
-    close all; 
-    fig1 = figure;
-end
-% clear all;
-% close all; 
-% clc;
+clear all;
+close all; 
+clc;
 % fig1 = figure;scr r;
-%% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_leg/';
-%% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_leg/';
+%% Choose PC
+% on sergio
+filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/identification_leg/';
+% on my pc
+% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/identification_leg/';
+%%
 
-
-filename = 'm0kg_vel004_trunk10';
+filename = 'm0kg_vel004_trunk22';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
@@ -27,6 +21,8 @@ BITS2CURRENT 		= 25.0/2046.0;
 CURRENT2TORQUE 		= 29.2e-3; 			
 BITS2WHEELTORQUE 	= BITS2CURRENT * CURRENT2TORQUE * 1.0/GEARRATIO;
 ENC2RAD = 2.0*3.141592*9.0/169.0/(500.0*4.0);
+K_m     = 29.2e-3;      % Nm/A,         Motor torque constant
+K_elm   = 10;           % A/V_input,    Gain from input Voltage to Current     
 
 sample_i = data.data(1:t_end,1);
 trace_count = 1;
@@ -43,7 +39,7 @@ for i=2:1:sum(vectorsizes)+1
         disp('error, -1 found, tracing not reliable?'); 
         disp(['number of -1 is ',num2str(length(indices))]);
         for m=indices
-%             trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
+            trace{trace_count}.signal{signal_count}(m) = (trace{trace_count}.signal{signal_count}(m-1)+trace{trace_count}.signal{signal_count}(m+1))/2;
         end
     end
     
@@ -76,7 +72,7 @@ plot(time,ref1); ylabel('ref [m]'); grid on; hold all;
 plot(time,enc1); legend('ref2','enc2');
 % plot(time,ffw2); hold all;
 subplot(n_plots,1,i_p);i_p = i_p+1;
-plot(time,u1); ylabel('control [V]'); grid on;  hold all;
+plot(time,u1.*(K_elm*K_m)); ylabel('control [Nm]'); grid on;  hold all;
 % plot(time,ffw2);
 % subplot(n_plots,1,i_p);i_p = i_p+1;
 % plot(time,enc1,time,enc2); ylabel('enc [m]'); grid on;
@@ -151,8 +147,8 @@ linkaxes(get(gcf,'children'),'x');
 % plot(time(1:end-2),diff(diff(ref2).*1000)); ylabel('ref acc m/s2'); xlabel('time s');
 % all_grids_on(); linkaxes(get(gcf,'children'),'x');
 %%
-% figure
-figure(fig1);
+figure
+% figure(fig1);
 plot(enc1,u1); grid on; hold all
 xlabel('enc1 m'); ylabel('input1 V');
 % figure;
