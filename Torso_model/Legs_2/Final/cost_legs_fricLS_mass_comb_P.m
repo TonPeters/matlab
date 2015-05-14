@@ -10,11 +10,12 @@ function out = cost_legs_fricLS_mass_comb_P(param,q0,tau_meas,q2,qd0)
 %     m_2= param(2);
     P1 = param(1);
     P2 = param(2);    
-    Kls = param(3);
-    Kdir = param(4);
-    Kcoul = param(5);
+    Kls = 0;
+    Kdir = 0;
+    Kcoul = param(4);
 
-    P3 = 2.548;
+%     P3 = 2.548;
+    P3 = param(3);
     
     %%
 %     l_1 = 0.39;

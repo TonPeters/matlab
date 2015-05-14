@@ -46,8 +46,8 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g 
 plotsettings
 
 %% Load data
-load('data_legs.mat');
-measurements = [1,2,3];
+load('data_legs_new.mat');
+measurements = [1,2,3,4,5];
 sets = [1,2,3,4];
 i=1;
 q0_est = linspace(th_0_min,th_0_max,40).';
@@ -55,15 +55,16 @@ q0_est = linspace(th_0_min,th_0_max,40).';
 
 fig1 = figure; scr rt;
 fig2 = figure; scr lt;
+dat_tau = [];
+dat_qd0 = [];
+dat_q2 = [];
+dat_q0 = [];
 for meas = measurements
     
     figure(fig2); 
     plot(sdata{meas}.q0_s{1},((sdata{meas}.tau_f{1}+sdata{meas}.tau_f{2})./2-(sdata{meas}.tau_f{3}+sdata{meas}.tau_f{3})./2),'color',ps.list_div{meas,2}); hold all;
     
-    dat_tau = [];
-    dat_qd0 = [];
-    dat_q2 = [];
-    dat_q0 = [];
+    
     for set = sets
         figure(fig1);
         plot(sdata{meas}.q0_m{set},sdata{meas}.tau_m{set},'color',ps.list_div{meas,1}); hold all;
@@ -80,22 +81,32 @@ end
 set = 1;
 
 %% optimization
-P3 = 2.4724;
-m_3 = P3/l_cm3;
-P1_est = l_cm1*m_1 + l_1*m_2 + l_1*m_3 + l_1*m_4;
-P2_est = l_cm2*m_2 + l_2*m_3 + l_2*m_4;
-m_1mm = [1 9]; m_2_mm = [1 9];
-P1_bound = l_cm1*m_1mm + l_1*m_2_mm + l_1*m_3 + l_1*m_4;
-P2_bound = l_cm2*m_2_mm + l_2*m_3 + l_2*m_4;
+m_1mm = [1; 9]; 
+m_2_mm = [1; 9];
+m_3_mm = [5; 12];
 
-% param = P1, P2, Kls, Ksh, Kcoul
-param0 =    [P1_est,   P2_est,    0.2120,    -0.0065, 0.0095];
-lb =        [P1_bound(1),   P2_bound(1),    0,      -0.11,     0];
-ub =        [P1_bound(2),     P2_bound(2),      0.5,     0.001,     0.3];
-% % param = P1, P2, Kls, Ksh, Kcoul
-% param0 =    [P1_est,   P2_est,    0.2120,    -0.00, 0.0095];
-% lb =        [P1_bound(1),   P2_bound(1),    0,      -0.000011,     0];
-% ub =        [P1_bound(2),     P2_bound(2),      0.5,     0.000001,     0.3];
+lcm3_m3 = 2.548;
+m_3 = lcm3_m3/l_cm3;
+P1_est1 = l_cm1*m_1 + l_1*m_2 + l_1*m_3 + l_1*m_4;
+P2_est1 = l_cm2*m_2 + l_2*m_3 + l_2*m_4;
+P3_est1 = l_cm3*m_3 + l_3*m_4;
+P1_bound = l_cm1*m_1mm + l_1*m_2_mm + l_1*m_3 + l_1*m_4;
+P2_bound = l_cm2*m_2_mm + l_2*m_3 + l_2*m_4;  
+P3_bound = l_cm3*m_3_mm + l_3*m_4;  
+
+P1_est = [P1_est1;  P1_bound];    % P1 = l_cm1*m_1 + l_1*m_2 + l_1*m_3 + l_1*m_4;
+P2_est = [P2_est1;  P2_bound];    % P2 = l_cm2*m_2 + l_2*m_3 + l_2*m_4;
+P3_est = [0.1;  0;  10];    % Kls
+P4_est = [0.1;  -1;  1];    % Kdir
+P5_est = [0.1;  0;  10];    % Kcoul
+P6_est = [P3_est1; P3_bound];
+
+
+P_est = [P1_est,P2_est,P6_est,P5_est];
+
+param0 =    P_est(1,:);
+lb =        P_est(2,:);
+ub =        P_est(3,:);
 
 
 % lsqnonlin
@@ -105,7 +116,7 @@ problem = createOptimProblem('lsqnonlin','objective',...
     @(param)cost_legs_fricLS_mass_comb_P(param,dat_q0,dat_tau,dat_q2,dat_qd0),...
     'x0',param0,'lb',lb,'ub',ub,'options',opts);
 ms = MultiStart('Display','off');
-n_startpoints = 2;
+n_startpoints = 6;
 [param,fval,exitflag] = run(ms,problem,n_startpoints);
 
 if (exitflag ~= 1)
@@ -123,14 +134,15 @@ for meas = measurements
     plot(q0_est,tau_est_p{meas,set},'color',ps.list_div{meas,2});
     plot(q0_est,tau_est_n{meas,set},'color',ps.list_div{meas,2});
 end
-tau_mod = -cost_legs_fricLS_mass_comb_P([param(1),param(2),0,0,0],q0_est,zeros(size(q0_est)),sdata{meas}.q2,0.004);
-plot(q0_est,tau_mod,'k')
+% tau_mod = -cost_legs_fricLS_mass_comb_P([param(1),param(2),0,0,0],q0_est,zeros(size(q0_est)),sdata{meas}.q2,0.004);
+% plot(q0_est,tau_mod,'k')
 
 
 %% check params
 par = param
-m2_est = (param(2)-l_2*m_3 - l_2*m_4)/l_cm2
-m1_est = (param(1)-l_1*m_2 - l_1*m_3 - l_1*m_4)/l_cm1
+m3_est = param(3)/l_cm3
+m2_est = (param(2)-l_2*m3_est - l_2*m_4)/l_cm2
+m1_est = (param(1)-l_1*m_2 - l_1*m3_est - l_1*m_4)/l_cm1
 
 
 

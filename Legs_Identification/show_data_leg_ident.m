@@ -4,9 +4,9 @@ clc;
 % fig1 = figure;scr r;
 %% Choose PC
 % on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/identification_leg/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/identification_leg/';
 % on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/identification_leg/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/identification_leg/';
 %%
 
 filename = 'm0kg_vel004_trunk22';

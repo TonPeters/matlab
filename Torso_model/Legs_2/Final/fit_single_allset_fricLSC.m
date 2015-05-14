@@ -46,8 +46,8 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g 
 plotsettings
 
 %% Load data
-load('data_legs.mat');
-measurements = [1,2,3];
+load('data_legs_new.mat');
+measurements = [1,2,3,4,5];
 sets = [1,2,3,4];
 i=1;
 q0_est = linspace(th_0_min,th_0_max,40).';

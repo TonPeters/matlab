@@ -42,13 +42,17 @@ function F_leg = sim_leg2(q0,q2,qd,qdd,m_4,M_4,N_leg_set,F1_leg_set)
     
     
     % estimated parameters
-    param = [6.704 5.672 0.207 -0.00756 0.0095];
+    % param = [6.704 5.672 0.207 -0.00756 0.0095];
+%     param = [7.1447  5.1355 0.2497   -0.0075    0.0077];
+    param = [6.5754    4.3237    0.2881  0.0  0.0075];
+%     param = [5.9899    3.3958   0.0  0.0226    0.0086];
     P1 = param(1);
     P2 = param(2);    
     Kls_1 = param(3);
     Kd_1 = param(4);
     Kc_1 = param(5);
-    param = [2.548 0.0290 0.0097];
+%     param = [2.548 0.0290 0.0097];
+    param = [2.47 0.0290 0.0097];
     P3 = param(1);
     Kc_2 = param(2);
     Kd_2 = param(3);
@@ -89,6 +93,7 @@ function F_leg = sim_leg2(q0,q2,qd,qdd,m_4,M_4,N_leg_set,F1_leg_set)
         (1-dq1_dq0).*cos(q2-q1+q0+q2_gravity_offset).*(P3+l_3*m_4));
 %     g_trunk = g*(P3+m_4.*l_3).*cos(q2-q1+q0+q2_gravity_offset);
 
+    
     % Moment of the arms
 %     g_arms_trunk = M_4;
     g_arms_leg = M_4*(1-dq1_dq0);
@@ -128,6 +133,7 @@ function F_leg = sim_leg2(q0,q2,qd,qdd,m_4,M_4,N_leg_set,F1_leg_set)
     
     %% friction contributions
     tau_fric_pr_leg = tau_G_leg.*sign(qd.*tau_G_leg)*Kls_1;
+%     tau_fric_pr_leg = tau_G_leg.*sign(qd)*Kls_1;
     tau_fric_leg = tau_fric_pr_leg+sign(qd).*Kc_1+Kd_1;
 %     tau_fric_trunk = sign(qd).*Kc_2+Kd_2;
     

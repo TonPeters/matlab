@@ -46,8 +46,8 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g 
 plotsettings
 
 %% Load data
-load('data_legs.mat');
-measurements = [1,2,3];
+load('data_legs_new.mat');
+measurements = [1,2,3,4,5];
 sets = [1,2,3,4];
 i=1;
 q0_est = linspace(th_0_min,th_0_max,40).';
@@ -126,8 +126,8 @@ for meas = measurements
     plot(q0_est,tau_est_n{meas,set},'color',ps.list_div{meas,2});
 end
 
-% tau_mass = -cost_legs_fricLS([0,0,0],q0_est,zeros(size(q0_est)),sdata{meas}.q2,0.004);
-% plot(q0_est,tau_mass,'color',ps.tuedarkblue);
+tau_mass = -cost_legs_fricLS([0,0,0],q0_est,zeros(size(q0_est)),sdata{meas}.q2,0.004);
+plot(q0_est,tau_mass,'color',ps.tuedarkblue);
 
 %% check params
 par = zeros(length(measurements),length(param));

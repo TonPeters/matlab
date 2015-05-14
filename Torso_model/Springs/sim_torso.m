@@ -42,13 +42,15 @@ function [F_leg,F_trunk] = sim_torso(q0,q2,qd,qdd,m_4,M_4,N_leg_set,F1_leg_set,N
     
     
     % estimated parameters
-    param = [6.704 5.672 0.207 -0.00756 0.0095];
+%     param = [6.704 5.672 0.207 -0.00756 0.0095];
+    param = [6.5754    4.3237    0.2881  0.0  0.0075];
     P1 = param(1);
     P2 = param(2);    
     Kls_1 = param(3);
     Kd_1 = param(4);
     Kc_1 = param(5);
-    param = [2.548 0.0290 0.0097];
+%     param = [2.548 0.0290 0.0097];
+    param = [2.47 0.0290 0.0097];
     P3 = param(1);
     Kc_2 = param(2);
     Kd_2 = param(3);

@@ -3,7 +3,7 @@ clear all; close all; clc;
 run torso_measures_NX
 
 % vector containing constants
-CC = zeros(14,1);
+CC = zeros(50,1);
 
 % vector with origin in A and pointing in negative y dircetion
 AZ = A+[0;-1;0];
@@ -79,6 +79,21 @@ CC(21) = -CAZ; % angle 0 min
 CC(22) = pi+GJH+KJL; % angle 2 max
 CC(23) = GJH+KJL; % angle 2 min
 
+%% Conversion angle to force angle
+CC(24) = HJ^2-JK^2;
+CC(25) = -2*JK;
+CC(26) = AC^2-AE^2;
+CC(27) = -2*AE;
+
+%% conversion spindle force to motor torque
+CC(28) = JK*r_sp*r_gear2;
+CC(29) = AE*r_sp*r_gear1;
+
+%% link lengths
+ll(1) = di(A,G);
+ll(2) = di(G,J);
+ll(3) = di(J,L);
+
 %% print results to copy paste
 print_format = 'C%.i = %8.6f;';
 disp(' Constants used in ConversionSpindleAngle.*:');
@@ -88,6 +103,15 @@ for i=const
     disp(string)
 end
 
+disp(' Constants used in TorsoFeedForward.*:');
+const = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,24,25,26,27,28,29];
+for i=const
+    string = sprintf(print_format,i,CC(i));
+    disp(string)
+end
+for i=1:length(ll)
+    fprintf('l%1.i = %8.6f;\n',i,ll(i));
+end
 
 disp(sprintf('\n Constants used in InitCalipherToSpindle.*:'));
 const = [1,2,3,4,5,6,9,15,16,17,18,19];

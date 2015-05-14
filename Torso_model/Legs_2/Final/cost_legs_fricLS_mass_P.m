@@ -18,10 +18,14 @@ function out = cost_legs_fricLS_mass_P(param,q0,tau_meas,q2,qd0)
 %     Kcoul = 0.0095;
     
     
-    Kls = 0.207;
-    Kshift = -0.00756;
-    Kcoul = 0.0095;
+%     Kls = 0.207;
+%     Kshift = -0.00756;
+%     Kcoul = 0.0095;
 
+    Kls = 0.249;
+    Kshift = -0.0075;
+    Kcoul = 0.0077;
+    
     P3 = 2.548;
     
     %%

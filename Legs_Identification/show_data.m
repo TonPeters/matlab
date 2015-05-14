@@ -10,9 +10,9 @@ end
 % clc;
 % fig1 = figure;scr r;
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_leg/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_identification/friction_leg/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_leg/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_identification/friction_leg/';
 
 
 filename = 'm0kg_vel004_trunk10';
@@ -83,6 +83,14 @@ plot(time,u1); ylabel('control [V]'); grid on;  hold all;
 subplot(n_plots,1,i_p);i_p = i_p+1;
 plot(time,err1); ylabel('err [m]'); grid on;
 linkaxes(get(gcf,'children'),'x');
+
+%% plot filter data
+% plotsettings
+% tau_filt = lowpass(u1,1/0.001,0.1);
+% figure; scr rt;
+% plot(time,u1,'color',ps.list_div_XL{1,4}); hold all
+% plot(time,tau_filt,'color',ps.list_div_XL{1,6});
+
 
 %% plot results
 % n_plots = 3; i_p = 1;

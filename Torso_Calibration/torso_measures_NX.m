@@ -129,6 +129,18 @@ FR_trunk = 60;              % direction dependant force
 L0_trunk = B_trunk  + (F1_trunk+FR_trunk/2)/K_trunk; % length at zero energy m (not reachable)
 N_springs_trunk = 0;        % amount of springs used
 
+%% drive train constants
+K_m     = 29.2e-3;      % Nm/A,         Motor torque constant
+K_elm   = 10;           % A/V_input,    Gain from input Voltage to Current     
+r_gear1 = 5/2;          % rad/rad,      Gear ratio from spindle to motor 1
+r_gear2 = 13/3;         % rad/rad,      Gear ratio from spindle to motor 2
+l_ls    = 0.002;        % m,           Lead of the spindle
+r_sp     = 2*pi/l_ls;   % rad/mm,       Gear ratio from spindle translation to rotation
+I_m     = 79.2e-7;      % kg.m2,        Motor rotor inertia
+l_s = 0.25;             % m,            Estimate ?????? lenght of the rotating screw
+I_ls = 10e-6.*l_s;      % kg.m2,        Spindle screw inertia
+tau_nom_max = 101e-3;   % Nm            Maximum nominal motor torque
+
 %% limits
 max_spindle1 = 0.394; % max is 0.41 is angle0 1.11 and angle1 2.5884
 min_spindle1 = 0.259; %0.2366 is angle0 0.0

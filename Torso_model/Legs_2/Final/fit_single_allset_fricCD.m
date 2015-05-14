@@ -46,8 +46,8 @@ clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g 
 plotsettings
 
 %% Load data
-load('data_legs.mat');
-measurements = [1,2,3];
+load('data_legs_new.mat');
+measurements = [1,2,3,4,5];
 sets = [1,2,3,4];
 i=1;
 q0_est = linspace(th_0_min,th_0_max,40).';
@@ -107,7 +107,7 @@ for meas = measurements
         @(param)cost_legs_fricCD(param,dat_q0,dat_tau,dat_q2,dat_qd0),...
         'x0',param0,'lb',lb,'ub',ub,'options',opts);
     ms = MultiStart('Display','off');
-    n_startpoints = 2;
+    n_startpoints = 4;
     [param,fval,exitflag] = run(ms,problem,n_startpoints);
 
     if (exitflag ~= 1)
@@ -142,7 +142,7 @@ subplot(3,1,1);
 plot(par(:,1));
 subplot(3,1,2);
 plot(par(:,2));
-subplot(3,1,3);
-plot(par(:,3));
+% subplot(3,1,3);
+% plot(par(:,3));
 
 all_grids_on();
