@@ -163,3 +163,9 @@ init_spindle2 = di(I,K);
 % spindle endstops:
 % legs  0.239 to 0.399 m, 0.0167 to 1.0362 rad
 % trunk 0.358 to 0.459 m, 0.9755 to 2.3642 rad
+
+%% speeds
+range1 = max_spindle1-min_spindle1;
+xd1 = range1/4;
+range2 = max_spindle2-min_spindle2;
+xd2 = range2/4;
