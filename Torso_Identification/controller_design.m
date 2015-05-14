@@ -50,7 +50,7 @@ for i=1:1:9
         ylabel('Magnitude db');
         subplot(2,1,2);
         semilogx(hz1{i},angle(H1{i}).*360/2/pi); hold all; 
-        ylabel('angle degrees'); xlabel('frequency Hz');
+        ylabel('Phase degrees'); xlabel('frequency Hz');
         leg_list1{leg_count1} = num2str(i);leg_count1 = leg_count1+1;
         legend(leg_list2);
         H_sum1 = H_sum1+H1{i};
@@ -63,7 +63,7 @@ for i=1:1:9
     ylabel('Magnitude db');
     subplot(2,1,2);
     semilogx(hz2{i},angle(H2{i}).*360/2/pi); hold all;
-    ylabel('angle degrees'); xlabel('frequency Hz');
+    ylabel('Phase degrees'); xlabel('frequency Hz');
     leg_list2{leg_count2} =  num2str(i); leg_count2 = leg_count2+1;
     legend(leg_list1);
     H_sum2 = H_sum2+H2{i};
