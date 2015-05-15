@@ -3,13 +3,14 @@ clear all;
 clc;
 plotsettings
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_validation/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_validation/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
 
 
 % filename = 'Trunk_acc08_leg10';
-filename = 'Leg_acc15_trunk20';
+% joint =2;
+filename = 'Leg_acc0_trunk20';
 joint =1;
 
 data = importdata([filedir,filename,'.dat']);
@@ -101,3 +102,10 @@ linkaxes(ax(joint,:),'x');
 all_ylims_on();
 all_xlims_on();
 all_grids_on();
+
+%% save
+% savedir= 'Data_acc/';
+% 
+% e = err(:,joint);
+% save([savedir,filename],'e','time');
+

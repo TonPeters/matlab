@@ -1,14 +1,14 @@
 clear all; 
-% close all; 
+close all; 
 clc;
 plotsettings
 %% on sergio
-filedir = '/home/amigo/ros/data/private/Ton_data/torso_validation/';
+% filedir = '/home/amigo/ros/data/private/Ton_data/torso_validation/';
 %% on my pc
-% filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
+filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
 
 
-filename = 'stand_bend_PID_ffw';
+filename = 'stand_bend_PD_ffw';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
@@ -24,7 +24,12 @@ Kelm = 10;
 facc = 0.8*0.024;
 K_m = 29.2e-3;              % Nm/A,     torque constant
 K_elm = 10;                  % Gain bij Elmo violin
-    
+r_gear1 = 5/2;          % rad/rad,      Gear ratio from spindle to motor 1
+r_gear2 = 13/3;         % rad/rad,      Gear ratio from spindle to motor 2
+l_ls    = 0.002;        % m,           Lead of the spindle
+r_sp     = 2*pi/l_ls;   % rad/mm,       Gear ratio from spindle translation to rotation
+r_1 = r_gear1*r_sp;
+r_2 = r_gear2*r_sp;
 sample_i = data.data(1:t_end,1);
 trace_count = 1;
 signal_count = 1;
@@ -51,8 +56,8 @@ time = sample_i;
 
 ref1 = trace{1}.signal{1};
 ref2 = trace{1}.signal{2};
-u1 = trace{2}.signal{1};
-u2 = trace{2}.signal{2};
+u1 = trace{2}.signal{1}.*r_1;
+u2 = trace{2}.signal{2}.*r_2;
 enc1 = trace{3}.signal{1};
 enc2 = trace{3}.signal{2};
 err1 = ref1-enc1;
@@ -64,8 +69,8 @@ if strcmp(filename(end-2:end),'PID') || strcmp(filename(end-4:end-2),'PID')
     ffw2 = zeros(size(u2));
 else
     disp('yes feedforward');
-    ffw1 = trace{4}.signal{1};
-    ffw2 = trace{4}.signal{2};
+    ffw1 = trace{4}.signal{1}.*r_1;
+    ffw2 = trace{4}.signal{2}.*r_2;
 end
 
 ref = [ref1,ref2];
@@ -111,3 +116,8 @@ linkaxes(ax(joint,:),'x');
 all_ylims_on();
 all_xlims_on();
 all_grids_on();
+
+%% save data
+savedir = 'Data_model';
+
+save([savedir,filename],'time','ref','u','enc','ffw','uc','err');
