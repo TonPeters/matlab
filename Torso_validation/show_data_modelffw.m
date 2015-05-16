@@ -1,14 +1,14 @@
 clear all; 
-close all; 
+% close all; 
 clc;
 plotsettings
 %% on sergio
 % filedir = '/home/amigo/ros/data/private/Ton_data/torso_validation/';
 %% on my pc
-filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
+filedir = '~/ros/data/private/Ton_data/torso_validation/';
 
 
-filename = 'stand_bend_PD_ffw';
+filename = 'stand_bend_PD_ffw03';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
@@ -118,6 +118,6 @@ all_xlims_on();
 all_grids_on();
 
 %% save data
-savedir = 'Data_model';
+savedir = 'Data_model/';
 
-save([savedir,filename],'time','ref','u','enc','ffw','uc','err');
+% save([savedir,filename],'time','ref','u','enc','ffw','uc','err');
