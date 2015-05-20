@@ -192,14 +192,9 @@ qdd_m = sym_time_derivative(qd_m,[q;qd],[qd;qdd]);
 I_ls1_m = I_ls./r_gear1;
 I_ls2_m = I_ls./r_gear2;
 
-I_drive = [I_ls1_m+I_m+I_g2 0; 0 I_ls2_m+I_m+I_g2];
+D_drive = [I_ls1_m+I_m+I_g2 0; 0 I_ls2_m+I_m+I_g2];
 
-qd_first = sym_partial_derivative(q_m,q);
-qd_sec = sym_partial_derivative(qd_first*qd,q);
-
-C_drive = I_drive*qd_sec;
-D_drive = I_drive*qd_first;
-
+tau_D_drive = D_drive*qdd_m;
 
 %% equations of motion D(q)qdd +C(q,qd)+G(q) = S(q) tau, (q is joint, tau is motor torque)
 T_qd = sym_partial_derivative(T,qd);
@@ -225,17 +220,14 @@ S(1:2,2) = S(1:2,2).*r_sp.*r_gear2;
 %% Contributions of terms on the required input torque
 Sinv = inv(S);
 
-tau_D = (Sinv*D+D_drive)*qdd;
-tau_C = Sinv*C+C_drive*qd;
+tau_D = Sinv*D*qdd;
+tau_C = Sinv*C;
 tau_G = Sinv*G;
 Tau = tau_D+tau_C+tau_G;
 
-tau_D_drive = D_drive*qdd;
-tau_D_joint = Sinv*D*qdd;
-
-% tau_M = Sinv*D*qdd+D_drive*S*qdd;
-filename = ['model_tau_NSprings',num2str(N_leg),'_',num2str(N_trunk),'_m',num2str(m_1),'_',num2str(m_2),'_',num2str(m_3),'_',num2str(m_4s),'final'];
-save(['../Simulation/',filename,'.mat'],'tau_D','tau_C','tau_G','Tau','D','Sinv','D_drive','tau_D_drive','tau_D_joint');
+tau_M = Sinv*D*qdd+D_drive*S*qdd;
+filename = ['model_tau_m_NSprings',num2str(N_leg),'_',num2str(N_trunk),'_m',num2str(m_1),'_',num2str(m_2),'_',num2str(m_3),'_',num2str(m_4s)];
+save(['../Simulation/',filename,'.mat'],'tau_D','tau_C','tau_G','Tau','D','Sinv','tau_D_drive','D_drive','tau_M');
 
 
 

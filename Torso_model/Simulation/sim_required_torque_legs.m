@@ -121,7 +121,7 @@ linkaxes(get(h_ref,'children'),'x');
 % qdd_r = [qdd0_r,qdd2_r];
 
 %% Simulation
-load model_tau_noSprings_ms20.mat
+load model_tau_NSprings0_0_m3.5_5_10_0final.mat
 
 tau_C_num1 = (subs(tau_C,{'q2','qd2','qdd2'},{0,0,0}));
 tau_D_num1 = (subs(tau_D,{'q2','qd2','qdd2'},{0,0,0}));

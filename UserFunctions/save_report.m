@@ -65,7 +65,11 @@ function out = save_report(fig,directory,filename,varargin)
             lh = findobj(fig,'Type','axes','Tag','legend');
             set(lh,'units','centimeters');
             lp = get(lh,'position');
-            leg_width = lp(3)*1.2;
+            lw = 0;
+            for i=1:1:length(lh)
+                lw = max(lw,lp{i}(3));
+            end      
+            leg_width = lw*1.2;
             width = width+leg_width;  
         elseif strcmp(plottype,'custom') % add custom input size
             assert(nargin>4,'not enough input arguments, define size [width height]');
@@ -93,7 +97,15 @@ function out = save_report(fig,directory,filename,varargin)
             lh = findobj(fig,'Type','axes','Tag','legend');
             set(lh,'units','centimeters');
             lp = get(lh,'position');
-            leg_width = lp(3)*1.2;
+            if length(lh)>1
+                lw = 0;
+                for i=1:1:length(lh)
+                    lw = max(lw,lp{i}(3));
+                end
+            else
+                lw = lp(3);
+            end
+            leg_width = lw*1.2;
             width = width+leg_width;  
             height = height*1.01;
         else
@@ -101,7 +113,7 @@ function out = save_report(fig,directory,filename,varargin)
             assert(false,'Incorrect input arguments');
         end
     end
-    setplot(fig,[width height],{m1,[],[],[],leg_width,[]},fontsize);
+    setplot(fig,[width height],{m1,[],0.2,[],leg_width,[]},fontsize);
     
     width;
     height;

@@ -20,6 +20,7 @@ function out = plot_torso_pos2(q0,q2,varargin)
     x_q3 = x_q2+l3.*[cos(q2-q1+q0), sin(q2-q1+q0)];
     x = [x_q0;x_q1;x_q2;x_q3]-[ones(4,1).*A(2), zeros(4,1)];
     
+    x(:,2)=  x(:,2)+0.025;
     
     if nargin>2
         out = plot(x(:,1),x(:,2),'-o','color',varargin{1}); hold all;

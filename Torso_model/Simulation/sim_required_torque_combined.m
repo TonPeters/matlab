@@ -124,7 +124,7 @@ linkaxes(get(h_ref,'children'),'x');
 
 
 %% Simulation
-load model_tau_NSprings0_0_m3.5_5_10_0.mat
+load model_tau_NSprings0_0_m3.5_5_10_0final.mat
 
 % model
 clc; disp('start tau_D');

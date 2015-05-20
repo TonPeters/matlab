@@ -8,12 +8,13 @@ plotsettings
 filedir = '~/ros/data/private/Ton_data/torso_validation/';
 
 
-filename = 'stand_bend_PD_ffw03';
+filename = 'stand_bend_PID04';
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2];
 t_start = 0;
 t_end = length(data.data(:,1));
+% t_end = 35002;
 
 GEARRATIO 			= 9.0/169.0;		
 BITS2CURRENT 		= 25.0/2046.0; 		
@@ -56,8 +57,8 @@ time = sample_i;
 
 ref1 = trace{1}.signal{1};
 ref2 = trace{1}.signal{2};
-u1 = trace{2}.signal{1}.*r_1;
-u2 = trace{2}.signal{2}.*r_2;
+u1 = trace{2}.signal{1};
+u2 = trace{2}.signal{2};
 enc1 = trace{3}.signal{1};
 enc2 = trace{3}.signal{2};
 err1 = ref1-enc1;
@@ -69,8 +70,8 @@ if strcmp(filename(end-2:end),'PID') || strcmp(filename(end-4:end-2),'PID')
     ffw2 = zeros(size(u2));
 else
     disp('yes feedforward');
-    ffw1 = trace{4}.signal{1}.*r_1;
-    ffw2 = trace{4}.signal{2}.*r_2;
+    ffw1 = trace{4}.signal{1};
+    ffw2 = trace{4}.signal{2};
 end
 
 ref = [ref1,ref2];
@@ -120,4 +121,4 @@ all_grids_on();
 %% save data
 savedir = 'Data_model/';
 
-% save([savedir,filename],'time','ref','u','enc','ffw','uc','err');
+save([savedir,filename],'time','ref','u','enc','ffw','uc','err');

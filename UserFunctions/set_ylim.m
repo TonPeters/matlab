@@ -14,9 +14,9 @@ function out = set_ylim(ax,varargin)
     if n>1
         for i=2:n
             ydata = get(lines(i),'ydata');
-            ymax_tmp = max(ydata);
+            ymax_tmp = max(ydata(find(~isnan(ydata))));
             ymax = max(ymax,ymax_tmp);
-            ymin_tmp = min(ydata);
+            ymin_tmp = min(ydata(find(~isnan(ydata))));
             ymin = min(ymin,ymin_tmp);
         end
     end

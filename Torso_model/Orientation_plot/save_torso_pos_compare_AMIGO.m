@@ -36,10 +36,10 @@ bounds_y_zero = [0 0];
 [bounds_x_zero(2), bounds_y_zero(2)] = plot_torso_end(th_0_max,shoulders_zero(th_0_max),[1 1 1]);
 
 % plot grid bounds
-pl(4) = plot(bounds_x(:,1),bounds_y(:,1),'--','color',ps.list_div_L{3,4});
-plot(bounds_x(:,2),bounds_y(:,2),'--','color',ps.list_div_L{3,4});
-plot(bounds_x(:,3),bounds_y(:,3),'--','color',ps.list_div_L{3,4});
-plot(bounds_x(:,4),bounds_y(:,4),'--','color',ps.list_div_L{3,4});
+pl(4) = plot(bounds_x(:,1),bounds_y(:,1),'-','color',ps.list_div_L{3,4});
+plot(bounds_x(:,2),bounds_y(:,2),'-','color',ps.list_div_L{3,4});
+plot(bounds_x(:,3),bounds_y(:,3),'-','color',ps.list_div_L{3,4});
+plot(bounds_x(:,4),bounds_y(:,4),'-','color',ps.list_div_L{3,4});
 
 % plot zero bounds
 % pl(5) = plot(bounds_x_zero,bounds_y_zero,'--','color',ps.list_div_XL{4,7});

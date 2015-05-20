@@ -8,10 +8,10 @@ plotsettings
 filedir = '/home/ton/ros/data/private/Ton_data/torso_validation/';
 
 
-% filename = 'Trunk_acc08_leg10';
-% joint =2;
-filename = 'Leg_acc0_trunk20';
-joint =1;
+filename = 'Trunk_new_acc15_leg10';
+joint =2;
+% filename = 'Leg_new_acc15_trunk10';
+% joint =1;
 
 data = importdata([filedir,filename,'.dat']);
 vectorsizes = [2,2,2,2,2];
@@ -104,8 +104,8 @@ all_xlims_on();
 all_grids_on();
 
 %% save
-% savedir= 'Data_acc/';
-% 
-% e = err(:,joint);
-% save([savedir,filename],'e','time');
+savedir= 'Data_acc/';
+
+e = err(:,joint);
+save([savedir,filename],'e','time');
 

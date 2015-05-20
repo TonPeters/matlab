@@ -20,10 +20,10 @@ q2 = linspace(th_2_min,th_2_max,n);
 
 % sim settings
 N_leg = 2;
-F1_leg = 300;
+F1_leg = 250;
 m_4 = 20;
 qdd = 0.32;
-F_lim = 1700;
+F_lim = 1800;
 
 % simulate
 F_leg_max = zeros(size(q0_));
@@ -156,7 +156,7 @@ if fig_save
     set(fig1,'PaperPositionMode','manual');
     set(fig1,'PaperPosition',[0 0 figsize]);
 
-    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/leg_limit_pos300_1700';
+    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/leg_limit_pos250_1800';
 
     print(fig1,'-dpdf',dir_file)
 end

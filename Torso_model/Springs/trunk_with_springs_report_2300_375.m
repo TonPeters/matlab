@@ -48,7 +48,7 @@ m_3 = 7;
 clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g K_leg K_trunk L0_leg L0_trunk FR_leg FR_trunk l_Fgs2 l_Fgs1
 plotsettings
 
-th_0_min = 0.05;        % absolute minimum of th_0
+th_0_min = 0.1;        % absolute minimum of th_0
 
 % motor parameters
 K_m     = 29.2e-3;      % Nm/A,         Motor torque constant
@@ -68,8 +68,8 @@ n_2 = 10;              % grid size
 m_4 = 20;           % kg, mass of the arms
 % M_4 = 52;           % Nm, load of the arms
 % N_trunk = 0;          % number of springs in the leg
-F1_trunk = 675;       % load of springs in the leg
-Motor_limit = 1550;
+F1_trunk = 350;       % load of springs in the leg
+Motor_limit = 2400;
 
 q0 = linspace(th_0_min,th_0_max,n_0);  % 
 qd = [1,        -1];  % only sign of velocity is used
@@ -169,7 +169,7 @@ leg_list = {'$q_0$ min','$q_0$ max','center','motor limits','no springs'};
 leg = legend_outside(fig2,leg_list,[ph_q2(:,2);ph_c(2);ph_l(2,1);ph_c_g(2)]);
 
 %% save_figure
-fig_save = true;
+fig_save = false;
 if fig_save
     % legend size
     set(leg,'units','centimeters','interpreter','latex');
@@ -191,7 +191,7 @@ if fig_save
     set(fig2,'PaperPositionMode','manual');
     set(fig2,'PaperPosition',[0 0 figsize]);
 
-    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/trunk_with_springs_675_1550';
+    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/trunk_with_springs_375_2300';
     print(fig2,'-dpdf',dir_file)
 end
 %% plot all results

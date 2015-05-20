@@ -1,5 +1,5 @@
 clear all; 
-close all; 
+% close all; 
 clc;
 %-------------------------------------------------------------------------%
 % Model: Trunk
@@ -62,30 +62,29 @@ l_s = 0.25;             % m,            Estimate ?????? lenght of the rotating s
 I_ls = 10e-6.*l_s;      % kg.m2,        Spindle screw inertia
 tau_nom_max = 101e-3;   % Nm            Maximum nominal motor torque
 
- 
+
 
 %% Settings
 n_0 = 10;              % grid size
 n_2 = 2;              % grid size
 m_4 = 20;           % kg, mass of the arms
 % M_4 = 52;           % Nm, load of the arms
-N_leg = 2;          % number of springs in the leg
+% N_leg = 0;          % number of springs in the leg
 F1_leg = 250;       % load of springs in the leg
 Motor_limit = 1800;
 
 % variables
 q0 = linspace(th_0_min,th_0_max,n_0);  % 
-q2 = [th_2_max, th_2_min];
-qd = [1 -1];  % only sign of velocity is used
-M_4 =[0 52];  % Nm, load of the arms
+q2 = linspace(th_2_min,th_2_max,n_2);
+qd = [1,        -1];  % only sign of velocity is used
+M_4 = [0,52];  % Nm, load of the arms
+N_leg = [0,2];          % number of springs in the leg
 qdd = [0.32;0];         % trajectory, 1s acc, 2s vel, 1s dec, that covers the full range (qdd = [0.32;0.41];)
 
 
 % zero shoulders
 q0c = linspace(th_0_min,th_0_max,n_0);
 q2c = shoulders_zero(q0c);
-% qdc = 1;
-% M_4c = 0;
 
 %% limits
 % motor
@@ -96,38 +95,83 @@ th_0_lim = [th_0_min;th_0_max]./pi*180;
 th_2_lim = [th_2_min;th_2_max]./pi*180;
 
 %% simulate
+% legend list q0
+leg_q2 = {};
+
+col = [-3 0];
 fig2 = figure; scr rt;
+col2 = [-5 -5; -0 -2];
+for ii = 1:2
+    for i=1:2
+        for j=1:2
 
-% kinematic limits
-for k=1:2
-    F_leg = sim_leg2(q0,q2(k),qd(k),qdd,m_4,M_4(k),N_leg,F1_leg);
-    figure(fig2);
-    ax(1) = subplot(1,1,1);
-    ph_q2(1) = plot(q0./pi*180,F_leg,'color',ps.list_div_XL{1,end-1}); hold all;
+            %% compute kinematic limits
+            for k=1:length(q2)
+                %% Run simulation
+                F_leg = sim_leg2(q0,q2(k),qd(i),qdd,m_4,M_4(j),N_leg(ii),F1_leg);
+
+                %% show results 2D
+                % plot results
+                figure(fig2);
+                ax((i-1)*2+j) = subplot(2,2,(i-1)*2+j);
+                % plot max
+                if ii==1
+                    ph_q2(k,(i-1)*2+j) = plot(q0./pi*180,F_leg,'color',ps.list_div_XL{end,end-5}); hold all;
+                else
+                    ph_q2(k,(i-1)*2+j) = plot(q0./pi*180,F_leg,'color',ps.list_div_XL{1,end-k*3+2}); hold all;
+                end
+                leg_q2{k} = ['$q_2=',num2str(q0(k)),'$'];
+
+            end
+
+            %% Compute shoulders centered
+
+            M_4c = 0;
+            qdc = -1;
+            F_legc = sim_leg2(q0c,q2c,qd(i),qdd,m_4,M_4(j),N_leg(ii),F1_leg);
+            if ii==1
+                ph_c_g((i-1)*2+j) = plot(q0c./pi*180,F_legc,'color',ps.list_div_XL{end,end-5}); hold all;
+            else 
+                ph_c((i-1)*2+j) = plot(q0c./pi*180,F_legc,'color',ps.list_div_XL{2,7}); hold all;
+            end
+
+            % motor limits
+            ph_l_g((i-1)*2+j,:) = plot(th_0_lim,F_lim_leg,'--','color',ps.list_div_XL{end,end-5}); 
+            ph_l((i-1)*2+j,:) = plot(th_0_lim,F_lim2_leg,'--','color',ps.list_div_XL{3,7}); 
+        end
+
+    end
 end
-
-
-% shoulders centered
-for k=1:2
-    F_legc = sim_leg2(q0c,q2c,qd(k),qdd,m_4,M_4(k),N_leg,F1_leg);
-    ph_c(1) = plot(q0c./pi*180,F_legc,'color',ps.list_div_XL{2,7}); hold all;
-end
-
-% motor limits
-ph_l(1,:) = plot(th_0_lim,F_lim_leg,'--','color',ps.list_div_XL{3,7}); 
-plot(th_0_lim,F_lim2_leg,'k--');
-
 
 %% plot limits and make up
-uistack(ph_l(1,:),'bottom');
+for ii = 1:4, uistack(ph_l(ii,:),'bottom'); end;
+for ii = 1:4, uistack(ph_l_g(ii,:),'bottom'); end;
+% plot(th_0_lim,F_lim2_leg,'k--');
+% title('Trunk');
+linkaxes(ax,'xy');
 xlim(th_0_lim)
-% ylim([-1500 3300]);
-ylabel('Force [N]');
+ylim([-2200 4100]);
+axes(ax(1));
+ylabel('Force [N] (+)');
+tit(1) =title('Moment 0 Nm');
+axes(ax(2));
+tit(2) = title('Moment 52 Nm');
+axes(ax(4));
 xlabel('angle ankle joint [deg]');
+axes(ax(3));
+ylabel('Force [N] (-)');
+xlabel('angle ankle joint [deg]');
+
+set(ax([2,4]),'yticklabel',[]);
+set(ax([2,1]),'xticklabel',[]);
 all_grids_on();
 
+% leg_q0{length(q0)+1} = 'center';
+leg_list = {'$q_2$ min','$q_2$ max','center','motor limits'};
+leg = legend_outside(fig2,leg_list,[ph_q2(:,2);ph_c(2);ph_l(2,1)]);
+
 %% save_figure
-fig_save = false;
+fig_save = true;
 if fig_save
     % legend size
     set(leg,'units','centimeters','interpreter','latex');
@@ -149,7 +193,7 @@ if fig_save
     set(fig2,'PaperPositionMode','manual');
     set(fig2,'PaperPosition',[0 0 figsize]);
 
-    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/bla';
+    dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/leg_springs250_1800';
     print(fig2,'-dpdf',dir_file)
 end
 %% plot all results

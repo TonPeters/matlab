@@ -23,7 +23,9 @@ lJK = di(J,K);
 lJH = di(J,H);
 lDJ = di(D,J);
 lJL = di(J,L);
-aBAZ = an(B,A,A+[0;-1;0]);
+aCAZ = an(C,A,A+[0;-1;0]);
+aGJH = an(G,J,H);
+aKJL = an(K,J,L);
 
 % parameters
 g = 9.81;                                       % gravitation
@@ -56,7 +58,7 @@ m_3 = 10;
 
 
 % clear parameters
-clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g m_3 l_cm3 l_cm2 l_cm1 m_1 m_2 m_3 K_leg K_trunk L0_leg L0_trunk
+clearvars -except g l_1 l_2 l_3 l_F1 l_F2 th_2_min th_2_max th_0_min th_0_max g m_3 l_cm3 l_cm2 l_cm1 m_1 m_2 m_3 K_leg K_trunk L0_leg L0_trunk lJH lJK lAC lAE aCAZ aGJH aKJL
 plotsettings
 
 %% Settings
@@ -192,14 +194,9 @@ qdd_m = sym_time_derivative(qd_m,[q;qd],[qd;qdd]);
 I_ls1_m = I_ls./r_gear1;
 I_ls2_m = I_ls./r_gear2;
 
-I_drive = [I_ls1_m+I_m+I_g2 0; 0 I_ls2_m+I_m+I_g2];
+D_drive = [I_ls1_m+I_m+I_g2 0; 0 I_ls2_m+I_m+I_g2];
 
-qd_first = sym_partial_derivative(q_m,q);
-qd_sec = sym_partial_derivative(qd_first*qd,q);
-
-C_drive = I_drive*qd_sec;
-D_drive = I_drive*qd_first;
-
+tau_D_drive = D_drive*qdd_m;
 
 %% equations of motion D(q)qdd +C(q,qd)+G(q) = S(q) tau, (q is joint, tau is motor torque)
 T_qd = sym_partial_derivative(T,qd);
@@ -225,19 +222,73 @@ S(1:2,2) = S(1:2,2).*r_sp.*r_gear2;
 %% Contributions of terms on the required input torque
 Sinv = inv(S);
 
-tau_D = (Sinv*D+D_drive)*qdd;
-tau_C = Sinv*C+C_drive*qd;
+tau_D = Sinv*D*qdd;
+tau_C = Sinv*C;
 tau_G = Sinv*G;
 Tau = tau_D+tau_C+tau_G;
 
-tau_D_drive = D_drive*qdd;
-tau_D_joint = Sinv*D*qdd;
-
-% tau_M = Sinv*D*qdd+D_drive*S*qdd;
-filename = ['model_tau_NSprings',num2str(N_leg),'_',num2str(N_trunk),'_m',num2str(m_1),'_',num2str(m_2),'_',num2str(m_3),'_',num2str(m_4s),'final'];
-save(['../Simulation/',filename,'.mat'],'tau_D','tau_C','tau_G','Tau','D','Sinv','D_drive','tau_D_drive','tau_D_joint');
+tau_M = Sinv*D*qdd+D_drive*S*qdd;
+% filename = ['model_tau_m_NSprings',num2str(N_leg),'_',num2str(N_trunk),'_m',num2str(m_1),'_',num2str(m_2),'_',num2str(m_3),'_',num2str(m_4s)];
+% save(['../Simulation/',filename,'.mat'],'tau_D','tau_C','tau_G','Tau','D','Sinv','tau_D_drive','D_drive','tau_M');
 
 
+Dt = Sinv*D;
+%%
+q0n = linspace(th_0_min,th_0_max,10).';
+q2n = linspace(th_2_min,th_2_max,3);
 
+fig1 = figure; scr rt;
+for i=1:3
+    Jm1 = I_ls1_m*2*lAC*lAE.*sin(q0n+aCAZ).*r_sp.*r_gear1;
+    D11 = double(subs(Dt(1,1),q,{q0n;q2n(i)}));
+    D12 = double(subs(Dt(1,2),q,{q0n;q2n(i)}));
+
+    figure(fig1);
+    ax1(i) = subplot(1,3,i);
+    plot(q0n,[Jm1,D11,D12]); hold all;
+    title(['q_2 = ',num2str(q2n(i),2)]);
+end
+axes(ax1(1))
+ylabel('Tau [Nm]');
+%%
+
+q0n = linspace(th_0_min,th_0_max,3);
+q2n = linspace(th_2_min,th_2_max,10).';
+fig2 = figure;
+for i=1:3
+
+    Jm2 = I_ls2_m*2*lJH*lJK.*sin(q2n-aGJH-aKJL).*r_sp.*r_gear2;
+    D22 = double(subs(Dt(2,2),q,{q0n(i);q2n}));
+    D21 = double(subs(Dt(2,1),q,{q0n(i);q2n}));
+
+    figure(fig2);
+    ax2(i) = subplot(1,3,i);
+    plot(q2n,[Jm2,D22,D21]); hold all;
+    title(['q_0 = ',num2str(q0n(i),2)]);
+end
+axes(ax2(1))
+ylabel('Tau [Nm]');
+all_grids_on();
+all_ylims_on();
+
+linkaxes(ax2,'y');
+linkaxes(ax1,'y');
+%%
+
+q0n = linspace(th_0_min,th_0_max).';
+syms q0s
+
+r = double(subs(sym_partial_derivative(angle0_to_spindle1(q0s),q0s),q0s,q0n));
+
+r2 = l_F1.*sin(spindle1_to_Fangle1(angle0_to_spindle1(q0n)));
+
+
+
+x1 = 1/2.*(lAC^2+lAE^2-2*lAC*lAE.*cos(q0n+aCAZ)).^(-1/2)*2*lAC*lAE.*sin(q0n+aCAZ);
+
+x2 = lAE.*sin(spindle1_to_Fangle1(angle0_to_spindle1(q0n)));
+
+figure; 
+plot(q0n,r,q0n,r2,q0n,x1,q0n,x2)
 
 

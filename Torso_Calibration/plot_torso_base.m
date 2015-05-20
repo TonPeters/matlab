@@ -13,6 +13,7 @@ function out = plot_torso_base()
     shift = A(2);
     
     
+    zshift =  0.025;
     % plot base limits
     out = plot(-[BP_front(2) BP_back(2)],[0 0],'-+','color',ps.orange,'linewidth',1); hold all;
     

@@ -50,7 +50,7 @@ clearvars -except th_2_min th_2_max th_0_min th_0_max
 plotsettings
 
 %% Simulation settings
-load model_tau_NSprings0_0_m3.5_5_10_20.mat   % used model
+load model_tau_m_NSprings0_0_m3.5_5_10_0.mat   % used model
 q0_r = th_0_min;                    % angle of lower joint
 
 %% Transmission parameters
@@ -128,6 +128,8 @@ I_ls_m = I_ls/r_gear2^2;    % translation lead screw inertia to motor space
 I_dr = I_ls_m+I_m;          % total drive train inertia
 Tau_m = I_dr.*qdd_m2;      % Torque required to overcome motor inertia
 
+tau_D_m_num = double(subs(tau_D_drive,{'q0','q2','qd0','qd2','qdd0','qdd2'},{q0_r.',q2_r.',qd0_r.',qd2_r.',qdd0_r.',qdd2_r.'}));
+tau_M_m = double(subs(tau_M,{'q0','q2','qd0','qd2','qdd0','qdd2'},{q0_r.',q2_r.',qd0_r.',qd2_r.',qdd0_r.',qdd2_r.'}));
 %% show results
 figure
 subplot(3,1,1);

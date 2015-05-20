@@ -20,6 +20,7 @@ function [out1,out2,varargout] = plot_torso_end(q0,q2,varargin)
     x_q3 = x_q2+l3.*[cos(q2-q1+q0), sin(q2-q1+q0)];
     x = [x_q0;x_q1;x_q2;x_q3]-[ones(4,1).*A(2), zeros(4,1)];
     
+    x(:,2)=  x(:,2)+0.025;
     if nargin>2
         varargout{1} = plot(x(end,1),x(end,2),'*','color',varargin{1}); hold all;
     else

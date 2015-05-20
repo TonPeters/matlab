@@ -23,7 +23,7 @@ N_trunk = 2;
 F1_trunk = 675;
 m_4 = 20;
 qdd = 0.41;
-F_lim = 1550;
+F_lim = 1600;
 
 % simulate
 F_trunk_max = zeros(size(q0_));
@@ -158,5 +158,5 @@ set(fig1,'Papersize',figsize);
 set(fig1,'PaperPositionMode','manual');
 set(fig1,'PaperPosition',[0 0 figsize]);
 
-dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/trunk_limit_pos_675_1550';
+dir_file = '/home/ton/Dropbox/Linux/Report_final/Images/Torso/trunk_limit_pos_675_1600';
 print(fig1,'-dpdf',dir_file)

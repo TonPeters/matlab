@@ -8,7 +8,7 @@ th_2_min = spindle2_to_angle2(min_spindle2);    % min angle q2
 th_2_max = spindle2_to_angle2(max_spindle2);    % max angle q2
 % th_0_min = spindle1_to_angle0(min_spindle1);    % min angle q0
 th_0_max = spindle1_to_angle0(max_spindle1);    % max angle q0
-th_0_min= 0.05;
+th_0_min= 0.10;
 min_spindle1 = angle0_to_spindle1(th_0_min);
 
 % motor parameters
@@ -43,6 +43,8 @@ omega_sp = range/(duration-1)*r_sp;
 gear_nom_speed = omega_nom/omega_sp;
 nom_speed = range/(duration-1)*1000;
 nom_speed_bend = nom_speed;
+
+nom_speed5 = range/(5-1)*1000;
 
 % print results
 format_spec1 = 'Desired gear %4.0fN by force is %3.1f:1 and by nom speed is %3.1f:1, nom speed = %4.1f mm/s\n';
@@ -186,3 +188,15 @@ if save_fig
 end
 
 all_grids_on();
+
+%% desired gears
+r1 = 5.4/2.5
+r2 = 7.88/2.5
+
+gopt = 3.5*2.5
+speed_n = 1/gopt/r_sp*7000*2*pi/60
+speed_m = 1/gopt/r_sp*12000*2*pi/60
+Force_n = 0.101*r_sp*gopt
+
+% range/4
+% nom_speed5

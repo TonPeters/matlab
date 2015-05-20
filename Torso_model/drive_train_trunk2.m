@@ -161,3 +161,9 @@ if save_fig
 end
 
 all_grids_on();
+%% chosen
+nom_speed = 1/12/r_sp*7000*2*pi/60
+max_speed = 1/12/r_sp*12000*2*pi/60
+force_max = 0.101*12*r_sp
+
+% nom_speed5 = range/(5-1)*1000
